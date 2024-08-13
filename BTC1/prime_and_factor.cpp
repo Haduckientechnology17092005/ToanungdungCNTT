@@ -6,7 +6,7 @@
 #include<vector>
 using namespace std;
 
-vector<long long> alpha, p, divisor; 
+vector<long long> alpha, p, divisor, sieve;
 
 bool isPrime(long long n) {
     if(n<=1)
@@ -127,9 +127,9 @@ bool isPerfectNumber_v2(long long n) {
 
 void print_factors_of_perfect_numbers(long long n){
     long long temp = 0;
-    cout<<"Perfect numbers: ";
-    cout<<n<<" = ";
     if(isPerfectNumber_v2(n)){
+        cout<<"Perfect numbers: ";
+        cout<<n<<" = ";
         for(long long i = 0; i<divisor.size(); i++){
             temp = divisor[i];
             if(temp < n/2){
@@ -153,6 +153,32 @@ void density_of_prime_factors(long long n){
     cout<<"Density of prime factors: "<<pi<<"\n";
     return;
 }
+
+void find_sieve(long long n){
+    for(long long i = 2; i<= n; i++){
+        sieve.push_back(0);
+    }
+    for(long long i = 2; i<=n; i++){
+        if(sieve[i]) continue;
+        for(long long j = 2*i; j<=n; j+=i){
+            sieve[j] = i;
+        }
+    }
+    return;
+}
+
+void print_sieve(long long n){
+    cout<<"Number: ";
+    for(long long i = 2; i<=n; i++){
+        cout<<i<<" ";
+    }
+    cout<<"\nSieve: ";
+    for(long long i = 2; i<sieve.size()+2; i++){
+        cout<<sieve[i]<<" ";
+    }
+    cout<<"\n";
+    return;
+}
 int main(){
     long long n;
     cout<<"Enter a number: ";
@@ -166,5 +192,7 @@ int main(){
     product_of_factors(n);
     print_factors_of_perfect_numbers(n);
     density_of_prime_factors(n);
+    find_sieve(n);
+    print_sieve(n);
     return 0;
 }
