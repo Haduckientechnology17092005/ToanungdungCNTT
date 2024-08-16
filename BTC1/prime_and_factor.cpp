@@ -4,6 +4,7 @@
 #include<time.h>
 #include<iostream>
 #include<vector>
+#include<algorithm>
 using namespace std;
 
 vector<long long> alpha, p, divisor, sieve;
@@ -40,7 +41,7 @@ void find_exponent(long long n){
     return;
 }
 
-void display(long long n){
+void displayPrimeFactorization(long long n){
     long long i = 0;
     cout<<"Prime factors of "<<n<<" = ";
     for(i = 0; i<p.size(); i++){
@@ -91,15 +92,15 @@ long long sum_of_factors(long long n){
     for(long long i = 0; i<p.size(); i++){
         sum = sum*((long long)pow(p[i],alpha[i]+1)-1)/(p[i]-1);
     }
-    //cout<<"Sum of factors: "<<sum<<"\n";
+    cout<<"Sum of factors: "<<sum<<"\n";
     return sum;
 }
 
-void product_of_factors(long long n){
+long long product_of_factors(long long n){
     long long number_of_factors = number_of_divisors(n);
     long long product = pow(n, number_of_factors/2);
     cout<<"Product of factors: "<<product<<"\n";
-    return;
+    return product;
 }
 
 bool isPerfectNumber(long long n) {
@@ -147,15 +148,25 @@ void print_factors_of_perfect_numbers(long long n){
     return;
 }
 
+void density_of_prime_factors_v2(long long n){
+    long long count = 0;
+    for(long long i = 2; i<=n; i++){
+        if(isPrime(i)){
+            count++;
+        }
+    }
+    cout<<"Density of prime factors (true): "<<count<<"\n";
+    return;
+}
 void density_of_prime_factors(long long n){
     long long pi;
     pi = n/log(n);
-    cout<<"Density of prime factors: "<<pi<<"\n";
+    cout<<"Density of prime factors (approx): "<<pi<<"\n";
     return;
 }
 
-void find_sieve(long long n){
-    for(long long i = 2; i<= n; i++){
+void SieveOfEratosthenes(long long n){
+    for(long long i = 0; i<= n; i++){
         sieve.push_back(0);
     }
     for(long long i = 2; i<=n; i++){
@@ -167,32 +178,132 @@ void find_sieve(long long n){
     return;
 }
 
-void print_sieve(long long n){
+void PrintSieveOfEratosthenes(long long n){
     cout<<"Number: ";
     for(long long i = 2; i<=n; i++){
         cout<<i<<" ";
     }
     cout<<"\nSieve: ";
-    for(long long i = 2; i<sieve.size()+2; i++){
+    for(long long i = 2; i<sieve.size(); i++){
         cout<<sieve[i]<<" ";
+    }
+    cout<<"\n";
+    cout<<"Prime numbers: ";
+    for(long long i = 2; i<=n; i++){
+        if(sieve[i] == 0){
+            cout<<i<<" ";
+        }
     }
     cout<<"\n";
     return;
 }
+
+vector<long long> SieveOfEratosthenes_a_to_n(long long a, long long n){
+    vector<bool>prime(n+1, true);
+    for (long long p = 2; p * p <= n; p++) {
+        if (prime[p] == true) {
+            for (long long i = p * p; i <= n; i += p)
+                prime[i] = false;
+        }
+    }
+    vector<long long>primes;
+    for(long long p = a; p <= n; p++){
+        if (prime[p])
+            primes.push_back(p);
+    }
+    return primes;
+}
+
+void print_primes_a_to_n(long long a, long long n){
+    vector<long long>primes = SieveOfEratosthenes_a_to_n(a, n);
+    cout<<"Prime numbers from "<<a<<" to "<<n<<": ";
+    for(long long i = 0; i<primes.size(); i++){
+        cout<<primes[i]<<" ";
+    }
+    cout<<"\n";
+    return;
+}
+
+void sum_primes_2_to_n(long long n){
+    vector<long long>primes = SieveOfEratosthenes_a_to_n(2, n);
+    long long sum = 0;
+    for(long long i = 0; i<primes.size(); i++){
+        sum += primes[i];
+    }
+    cout<<"Sum of prime numbers from 2 to "<<n<<": "<<sum<<"\n";
+    return;
+}
+
+void product_primes_2_to_n(long long n){
+    vector<long long>primes = SieveOfEratosthenes_a_to_n(2, n);
+    long long product = 1;
+    for(long long i = 0; i<primes.size(); i++){
+        product *= primes[i];
+    }
+    cout<<"Product of prime numbers from 2 to "<<n<<": "<<product<<"\n";
+    return;
+}
+void sum_primes_a_to_n(long long a, long long n){
+    vector<long long>primes = SieveOfEratosthenes_a_to_n(a, n);
+    long long sum = 0;
+    for(long long i = 0; i<primes.size(); i++){
+        sum += primes[i];
+    }
+    cout<<"Sum of prime numbers from "<<a<<" to "<<n<<": "<<sum<<"\n";
+    return;
+}
+
+void product_primes_a_to_n(long long a, long long n){
+    vector<long long>primes = SieveOfEratosthenes_a_to_n(a, n);
+    long long product = 1;
+    for(long long i = 0; i<primes.size(); i++){
+        product *= primes[i];
+    }
+    if(product == 1)
+        cout<<"Product of prime numbers from "<<a<<" to "<<n<<": 0\n";
+    else
+        cout<<"Product of prime numbers from "<<a<<" to "<<n<<": "<<product<<"\n";
+    return;
+}
+
 int main(){
     long long n;
-    cout<<"Enter a number: ";
+    long long a;
+    cout<<"Enter a number n = ";
     cin>>n;
+    cout<<"Enter a number a = ";
+    cin>>a;
+    if(isPrime(n)){
+        cout<<n<<" is a prime number\n";
+    } else {
+        cout<<n<<" is not a prime number\n";
+    }
     find_prime(n);
     find_exponent(n);
-    display(n);
+    displayPrimeFactorization(n);
     number_of_divisors(n);
     print_number_of_divisors(n);
     sum_of_factors(n);
     product_of_factors(n);
+    if(isPerfectNumber(n)){
+        cout<<n<<" is a perfect number c1\n";
+    } else {
+        cout<<n<<" is not a perfect number c1\n";
+    }
+    if(isPerfectNumber_v2(n)){
+        cout<<n<<" is a perfect number c2\n";
+    } else {
+        cout<<n<<" is not a perfect number c2\n";
+    }
     print_factors_of_perfect_numbers(n);
     density_of_prime_factors(n);
-    find_sieve(n);
-    print_sieve(n);
+    density_of_prime_factors_v2(n);
+    SieveOfEratosthenes(n);
+    PrintSieveOfEratosthenes(n);
+    print_primes_a_to_n(a, n);
+    sum_primes_2_to_n(n);
+    product_primes_2_to_n(n);
+    sum_primes_a_to_n(a, n);
+    product_primes_a_to_n(a, n);
     return 0;
 }
