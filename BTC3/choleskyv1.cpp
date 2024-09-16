@@ -1,6 +1,7 @@
 #include<iostream>
 #include<cmath>
 #include<cstring>
+#include<iomanip>
 
 using namespace std;
 
@@ -143,22 +144,24 @@ void Cholesky_Decomposition(double A[4][4], int n){
     }
 }
 
-void printMatrix(double A[4][4], int n){
-    cout<<"Matrix L: \n";
-    for(int i=0; i<n; i++){
-        for(int j=0; j<n; j++){
-            if(j>i)
-                cout<<0<<" ";
+void printMatrix(double A[4][4], int n) {
+    cout << "Matrix L and L^T: \n";
+    cout << fixed << setprecision(2);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (j > i)
+                cout << setw(6) << "0.00" << " "; 
             else
-                cout<<A[i][j]<<" ";
+                cout << setw(6) << A[i][j] << " "; 
         }
-        cout<<"     ";
-        for(int k=0; k<n; k++){
-            if(k<i)
-                cout<<0<<" ";
+        cout<<" | ";
+        for (int k = 0; k < n; k++) {
+            if (k < i)
+                cout << setw(6) << "0.00" << " ";
             else
-                cout<<A[k][i]<<" ";
+                cout << setw(6) << A[k][i] << " "; 
         }
-        cout<<"\n";
+        cout << "\n";
     }
+    cout << "\n";
 }

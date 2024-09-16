@@ -2,6 +2,7 @@
 #include<cmath>
 #include<cstring>
 #include<stdlib.h>
+#include<iomanip>
 
 using namespace std;
 
@@ -19,6 +20,7 @@ int main(){
     cin >> n;
     cout << "Enter a number m: ";
     cin >> m;
+    cout<<fixed<<setprecision(2);
     inputMatrix(A, n, m);
     if(!checkMatrixCholesky(A, n, m)){
         cout << "Matrix is not positive definite\n";
@@ -83,30 +85,36 @@ void CholeskyLDL_Decomposition(double A[4][4], double L[4][4], double D[4], int 
     }
 }
 
-void printMatrix(double L[4][4], double D[4], int n){
-    cout << "Matrix L: \n";
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < n; j++){
-            if(j > i)
-                cout << 0 << " ";
+#include <iostream>
+#include <iomanip> // thêm để dùng hàm setprecision và setw
+using namespace std;
+
+void printMatrix(double L[4][4], double D[4], int n) {
+    cout << "Matrix L | D | L^T\n";
+    cout << fixed << setprecision(2);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (j > i)
+                cout << setw(6) << "0.00" << " ";
             else
-                cout << L[i][j] << " ";
+                cout << setw(6) << L[i][j] << " ";
         }
-        cout << "     ";
-        for(int j = 0; j < n; j++){
-            if(i == j)
-                cout << D[i] << " ";
+        cout << " | ";
+        for (int j = 0; j < n; j++) {
+            if (i == j)
+                cout << setw(6) << D[i] << " ";
             else
-                cout << 0 << " ";
+                cout << setw(6) << "0.00" << " ";
         }
-        cout<<"     ";
-        for(int j = 0; j < n; j++){
-            if(j < i)
-                cout << 0 << " ";
+        cout << " | ";
+        for (int j = 0; j < n; j++) {
+            if (j < i)
+                cout << setw(6) << "0.00" << " ";
             else
-                cout << L[j][i] << " ";
+                cout << setw(6) << L[j][i] << " ";
         }
         cout << "\n";
     }
     cout << "\n";
 }
+
