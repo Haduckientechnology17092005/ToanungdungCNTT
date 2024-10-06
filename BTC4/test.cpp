@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
-#include<cmath>
+#include <cmath>
 
 #define PI 3.14159265
 #define MAX_SIZE 10
@@ -81,6 +81,7 @@ void Danhilepski(matrix A, matrix M, matrix M1, matrix B, int n) {
         }
     }
 }
+
 double determinant(const matrix A, int n) {
     double det = 0;
     if (n == 1) {
@@ -122,10 +123,10 @@ bool invertMatrix(const matrix A, matrix inverse, int n) {
             for (int x = 0; x < n; x++) {
                 for (int y = 0; y < n; y++) {
                     if (x != i && y != j) {
-                        temp[temp_i][(y < j) ? y : (y - 1)] = A[x][y]; // Đảm bảo chỉ số hàng và cột đúng
+                        temp[temp_i][temp_i++] = A[x][y];
                     }
                 }
-                if (x != i) temp_i++; // Chỉ tăng temp_i khi không phải hàng i
+                temp_i++;
             }
             adjoint[j][i] = (pow(-1, i + j) * determinant(temp, n - 1)) / det; // Adjoint transpose
         }
@@ -195,6 +196,26 @@ void solution(double a, double b, double c, double d, double x[]) {
             if(j>=0)
                 h = pow(j, 1.0/3.0) + pow(i, 1.0/3.0);
         }
-        x[0] = sqrt(delta)*h/(3*a)-b/(3*a);
+        x[0] = sqrt(delta)*cosh(h)-b/(3*a);
     }
+}
+
+int main() {
+    int n;
+    cout << "Enter the size of the square matrix: ";
+    cin >> n;
+
+    matrix A;
+    inputMatrix(n, A);
+    
+    cout << "The matrix you entered is: " << endl;
+    outputMatrix(n, A);
+
+    matrix inverse;
+    if (invertMatrix(A, inverse, n)) {
+        cout << "The inverse of the matrix is: " << endl;
+        outputMatrix(n, inverse);
+    }
+
+    return 0;
 }

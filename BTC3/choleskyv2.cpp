@@ -85,10 +85,6 @@ void CholeskyLDL_Decomposition(double A[4][4], double L[4][4], double D[4], int 
     }
 }
 
-#include <iostream>
-#include <iomanip> // thêm để dùng hàm setprecision và setw
-using namespace std;
-
 void printMatrix(double L[4][4], double D[4], int n) {
     cout << "Matrix L | D | L^T\n";
     cout << fixed << setprecision(2);
