@@ -123,7 +123,11 @@ void tinhMatranU(MatrixXd lambda, MatrixXd vector, double U[][10], double A[][10
             }
         }
     }
-    for (int i = 0; i < cols; i++) {
+	gramSchmidt(U, rows, cols);
+}
+
+void gramSchmidt(double U[][10], int rows, int cols) {
+	for (int i = 0; i < cols; i++) {
         for (int j = 0; j < i; j++) {
             double dot_product = 0;
             for (int k = 0; k < rows; k++) {
