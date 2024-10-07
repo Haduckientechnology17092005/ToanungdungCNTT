@@ -38,7 +38,7 @@ int main() {
 	GetEigenValuesAndVector(S, lambda, vector);
 	double sigma[10][10], U[10][10], V[10][10];
 	tinhMatranU(lambda, vector, U, A, rows, cols);
-	gramSchmidt(U, rows, cols);
+	//gramSchmidt(U, rows, cols);
 	cout << "MATRIX U" << endl;
 	display(U, rows, rows);  
 	
@@ -59,7 +59,7 @@ void display(double A[][10], int row, int col) {
 	for (int i = 0; i < row; i++) 
 	{
         for (int j = 0; j < col; j++)
-            cout << setw(9) << setprecision(4) << A[i][j];
+            cout << setw(9) << fixed << setprecision(2) << A[i][j];
         cout << endl;
     }
 }
@@ -107,64 +107,56 @@ void GetEigenValuesAndVector(MatrixXd S, MatrixXd &lambda, MatrixXd &vector) {
         }
 }
 void tinhMatranU(MatrixXd lambda, MatrixXd vector, double U[][10], double A[][10], int rows, int cols) {
-	MatrixXd ui(rows, 1);
-	double Vi[cols][10];
-	
-	for (int i = 0; i < cols; i++) { 
-		for (int j = 0; j < cols; j++) {
-			Vi[j][0] = vector(j, i);  
-		}	
-		NhanMaTran(ui, A, Vi, rows, cols, 1);
-		
-		for (int k = 0; k < rows; k++) {
-			if (lambda(i, 0) != 0) {
-				U[k][i] = (1 / sqrt(lambda(i, 0))) * ui(k, 0);
-			} else {
-				U[k][i] = 0;
-			}
-		}
-	}
-	
-	if (rows > cols) {
-		MatrixXd U_matrix(rows, cols); 
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
-				U_matrix(i, j) = U[i][j];
-			}
-		}
-		
-		MatrixXd orthogonal_basis = U_matrix.householderQr().householderQ();  
-		for (int j = cols; j < rows; j++) {
-			for (int i = 0; i < rows; i++) {
-				U[i][j] = orthogonal_basis(i, j);
-			}
-		}
-	}
-}
-
-void gramSchmidt(double U[][10], int rows, int cols) {
-    for (int i = cols; i < rows; i++) {
-        for (int j = 0; j < rows; j++) {
-            U[j][i] = (i == j) ? 1 : 0;  
+    MatrixXd ui(rows, 1);
+    double Vi[cols][10];
+    
+    for (int i = 0; i < cols; i++) { 
+        for (int j = 0; j < cols; j++) {
+            Vi[j][0] = vector(j, i);  
+        }   
+        NhanMaTran(ui, A, Vi, rows, cols, 1);
+        for (int k = 0; k < rows; k++) {
+            if (lambda(i, 0) != 0) {
+                U[k][i] = (1 / sqrt(lambda(i, 0))) * ui(k, 0);
+            } else {
+                U[k][i] = 0;
+            }
         }
-        
-        for (int k = 0; k < i; k++) {
+    }
+    for (int i = 0; i < cols; i++) {
+        for (int j = 0; j < i; j++) {
             double dot_product = 0;
-            for (int j = 0; j < rows; j++) {
-                dot_product += U[j][i] * U[j][k];
+            for (int k = 0; k < rows; k++) {
+                dot_product += U[k][i] * U[k][j];
             }
-            for (int j = 0; j < rows; j++) {
-                U[j][i] -= dot_product * U[j][k];
+            for (int k = 0; k < rows; k++) {
+                U[k][i] -= dot_product * U[k][j];
             }
         }
-        
         double norm = 0;
-        for (int j = 0; j < rows; j++) {
-            norm += U[j][i] * U[j][i];
+        for (int k = 0; k < rows; k++) {
+            norm += U[k][i] * U[k][i];
         }
         norm = sqrt(norm);
-        for (int j = 0; j < rows; j++) {
-            U[j][i] /= norm;
+        if (norm > 1e-10) { 
+            for (int k = 0; k < rows; k++) {
+                U[k][i] /= norm;
+            }
+        } else {
+            MatrixXd random_vector = MatrixXd::Random(rows, 1);
+            for (int j = 0; j < i; j++) {
+                double dot_product = 0;
+                for (int k = 0; k < rows; k++) {
+                    dot_product += random_vector(k, 0) * U[k][j];
+                }
+                for (int k = 0; k < rows; k++) {
+                    random_vector(k, 0) -= dot_product * U[k][j];
+                }
+            }
+            double random_norm = random_vector.norm();
+            for (int k = 0; k < rows; k++) {
+                U[k][i] = random_vector(k, 0) / random_norm;
+            }
         }
     }
 }

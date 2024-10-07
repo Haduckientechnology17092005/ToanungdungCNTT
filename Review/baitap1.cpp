@@ -25,6 +25,7 @@ int main(){
     cout<<"Nearest prime number: "<<nearestPrime(n)<<"\n";
     findcoprime(n);
     cout<<"Count coprime: "<<coprime.size()<<"\n";
+    printcoprime();
     cout<<"Find perfect number from 1 to 1000: "<<"\n";
     findPerfectNumber(n);
     printPerfectNumber();
@@ -66,7 +67,7 @@ long long gcd(long long a, long long b){
     return gcd(b, a%b);
 }
 void findcoprime(long long n){
-    for(int m = 1; m <= 1000; m++){
+    for(int m = 1; m <= 102230194; m++){
         if(gcd(m,n) == 1){
             coprime.push_back(m);
         }
@@ -79,17 +80,19 @@ void printcoprime(){
     cout<<"\n";
 }
 
-bool isPerfectNumber(long long n){
-    long long sum = 0;
-    for(int i = 1; i<n; i++){
-        if(n%i == 0){
+bool isPerfectNumber(long long n) {
+    long long sum = 1;
+    for (long long i = 2; i <= sqrt(n); i++) {
+        if (n % i == 0) {
             sum += i;
+            if (i != n / i) {
+                sum += n / i;
+            }
         }
     }
-    if(sum == n)
-        return true;
-    return false;
+    return sum == n && n != 1;
 }
+
 void findPerfectNumber(long long n){
     for(int i = 0; i<coprime.size(); i++){
         if(isPerfectNumber(coprime[i])){
