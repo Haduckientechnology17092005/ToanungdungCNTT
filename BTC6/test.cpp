@@ -59,7 +59,7 @@ void display(double A[][10], int row, int col) {
 	for (int i = 0; i < row; i++) 
 	{
         for (int j = 0; j < col; j++)
-            cout << setw(9) << fixed << setprecision(2) << A[i][j];
+            cout << setw(9) << fixed << setprecision(3) << A[i][j];
         cout << endl;
     }
 }
@@ -123,7 +123,26 @@ void tinhMatranU(MatrixXd lambda, MatrixXd vector, double U[][10], double A[][10
             }
         }
     }
-	gramSchmidt(U, rows, cols);
+    if(rows > cols) {
+        if (rows > cols) {
+		MatrixXd U_matrix(rows, cols); 
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				U_matrix(i, j) = U[i][j];
+			}
+		}
+		
+		MatrixXd orthogonal_basis = U_matrix.householderQr().householderQ();  
+		for (int j = cols; j < rows; j++) {
+			for (int i = 0; i < rows; i++) {
+				U[i][j] = orthogonal_basis(i, j);
+		    	}
+	    	}
+    	}
+    } else {
+        gramSchmidt(U, rows, cols);
+    }
+
 }
 
 void gramSchmidt(double U[][10], int rows, int cols) {
