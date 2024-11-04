@@ -51,10 +51,10 @@ void optimize(double alpha, double beta, double x_init, double (*objFunc)(double
 }
 
 int main() {
-    double alpha = 0.001; 
-    double beta = 0.1;  
+    double gamma = 0.001; 
+    double alpha = 0.1;  
     double x_init = 0.0; 
-    optimize(alpha, beta, x_init, function1, derivativeFunction1);
+    optimize(gamma, alpha, x_init, function1, derivativeFunction1);
 
     return 0;
 }
