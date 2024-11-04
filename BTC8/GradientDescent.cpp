@@ -40,10 +40,9 @@ float SGD(float x_init, float learning_rate, int epochs, float (*gradFunc)(float
             cout << "Convergence reached after " << i << " iterations." << endl;
             break;
         }
-        
-        // Prevent divergence by ensuring x does not approach zero
-        if (x <= 0) {
-            cout << "x approached non-positive value, stopping." << endl;
+        // Check for maximum number of iterations
+        if (i >= epochs) {
+            cout << "Maximum number of iterations reached." << endl;
             break;
         }
     }
@@ -51,7 +50,7 @@ float SGD(float x_init, float learning_rate, int epochs, float (*gradFunc)(float
 }
 
 int main() {
-    float x_initial = 0.1; 
+    float x_initial = -1.0; 
     float learning_rate = 0.001; 
     int epochs = 1000;  
     cout << "Result of SGD: " << SGD(x_initial, learning_rate, epochs, derivativeFunction1, function1) << endl;
