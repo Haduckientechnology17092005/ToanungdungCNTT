@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": ".",
-      "program": "build/Debug/outDebug",
+      "cwd": "/media/haduckien/E/Studying/HK3/Mathmetics for CS (3)/BTC7/Convex-Hull",
+      "program": "/media/haduckien/E/Studying/HK3/Mathmetics for CS (3)/BTC7/Convex-Hull/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

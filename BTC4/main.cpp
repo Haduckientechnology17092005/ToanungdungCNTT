@@ -2,12 +2,14 @@
 int main() {
     matrix A, M, M1, B;
     double lambda[3] = {0,0,0};
-    int n = 3;
+    int n;
+    cout<<"Enter n: ";
+    cin>>n;
     inputMatrix(n, A);
     Danhilepski(A, M, M1, B, n);
     solution(1, -A[0][0], -A[0][1], -A[0][2], lambda);
     cout<<"Danhilepski's solution is: Eigen value:"<<endl;
-    cout << setprecision(2) << fixed << lambda[0] << endl << lambda[1] << endl << lambda[2] << endl;
+    cout << setprecision(4) << fixed << lambda[0] << endl << lambda[1] << endl << lambda[2] << endl;
     double y[3][10], x[3][10];
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 10; j++) {
@@ -15,7 +17,7 @@ int main() {
         }
     }
     multiMatrix(B, y, x, 3, 3, 3);
-    cout<<"Private Vector: "<<endl;
+    cout<<"S: "<<endl;
     for (int i = 0; i < 3; i++) {
         for(int j = 0; j < 3; j++){
             cout<<x[i][j]<<"\t";
@@ -42,7 +44,7 @@ int main() {
     }
     matrix inverse;
     invertMatrix(x, inverse, 3);
-    cout<<"Inverse matrix: "<<endl;
+    cout<<"S^-1: "<<endl;
     for(int i = 0; i<3; i++){
         for(int j = 0; j<3; j++){
             cout<<inverse[i][j]<<"\t";

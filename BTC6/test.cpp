@@ -6,6 +6,7 @@
 using namespace std;
 using namespace Eigen; 
 
+void input(double A[][10], int row, int col);
 void swap(double &a, double &b);
 void display(double A[][10], int row, int col);
 void chuyenvi(double A[][10], double At[][10], int rows, int cols);
@@ -23,57 +24,58 @@ int main() {
 	cout << "ROWS: ";	cin >> rows;
 	cout << "COLUMNS: ";		cin >> cols;
 	cout << "ENTER MATRIX ELEMENTS: " << endl;
-	for (int i=0; i<rows; i++) 
-	{
-		for (int j=0; j<cols; j++) 
-		{
-			cout << "a[" << i+1 << "][" << j + 1 << "] = ";
-			cin >> A[i][j];
-		}
-	}
-	
+    input(A, rows, cols);
+    cout << "MATRIX A" << endl;
+    display(A, rows, cols);
 	MatrixXd S(cols, cols), lambda(cols, 1), vector(cols, cols);
 	chuyenvi(A, At, rows, cols);
 	NhanMaTran(S, At, A, cols, rows, cols);
 	GetEigenValuesAndVector(S, lambda, vector);
 	double sigma[10][10], U[10][10], V[10][10];
 	tinhMatranU(lambda, vector, U, A, rows, cols);
-	//gramSchmidt(U, rows, cols);
 	cout << "MATRIX U" << endl;
 	display(U, rows, rows);  
-	
 	tinhMatranS(lambda, sigma, rows, cols);
 	cout << "MATRIX SIGMA" << endl;
 	display(sigma, rows, cols);  
-	
 	tinhMatranV(vector, V);
 	cout << "MATRIX VT" << endl;
 	double VT[10][10];
 	chuyenvi(V, VT, cols, cols);
 	display(VT, cols, cols);
-	
 	return 0;
+}
+
+void input(double A[][10], int row, int col) {
+    for (int i = 0; i < row; i++) 
+        for (int j = 0; j < col; j++){
+            cout << "a[" << i + 1 << "][" << j + 1 << "] = ";
+            cin >> A[i][j];
+        }
 }
 
 void display(double A[][10], int row, int col) {
 	for (int i = 0; i < row; i++) 
 	{
         for (int j = 0; j < col; j++)
-            cout << setw(9) << fixed << setprecision(3) << A[i][j];
+            cout << setw(9) << fixed << setprecision(4) << A[i][j];
         cout << endl;
     }
 }
+
 void swap(double &a, double &b) {
 	double temp = a;
 	a = b;
 	b = temp;
 }
+
 void chuyenvi(double A[][10], double At[][10], int rows, int cols) {
 	for (int i=0; i<rows; i++) 
 		for (int j=0; j<cols; j++) {
 			At[j][i] = A[i][j];
 		}
 }
+
 void NhanMaTran(MatrixXd &S, double A[][10], double B[][10], int row1, int col1, int col2) {
 	for (int i=0; i<row1; i++) {
 		for (int j=0; j<col2; j++) {
@@ -84,6 +86,7 @@ void NhanMaTran(MatrixXd &S, double A[][10], double B[][10], int row1, int col1,
 		}
 	}
 }
+
 void GetEigenValuesAndVector(MatrixXd S, MatrixXd &lambda, MatrixXd &vector) {
 	SelfAdjointEigenSolver<Eigen::MatrixXd> eigensolver(S);
 	vector = eigensolver.eigenvectors();
@@ -106,6 +109,7 @@ void GetEigenValuesAndVector(MatrixXd S, MatrixXd &lambda, MatrixXd &vector) {
             }
         }
 }
+
 void tinhMatranU(MatrixXd lambda, MatrixXd vector, double U[][10], double A[][10], int rows, int cols) {
     MatrixXd ui(rows, 1);
     double Vi[cols][10];
@@ -131,7 +135,6 @@ void tinhMatranU(MatrixXd lambda, MatrixXd vector, double U[][10], double A[][10
 				U_matrix(i, j) = U[i][j];
 			}
 		}
-		
 		MatrixXd orthogonal_basis = U_matrix.householderQr().householderQ();  
 		for (int j = cols; j < rows; j++) {
 			for (int i = 0; i < rows; i++) {

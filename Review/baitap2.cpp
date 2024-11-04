@@ -124,7 +124,7 @@ void tinhMatranU(MatrixXd lambda, MatrixXd vector, double U[][10], double A[][10
 		}
 	}
 	
-	if (rows >= cols) {
+	if (rows > cols) {
 		MatrixXd U_matrix(rows, cols); 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {

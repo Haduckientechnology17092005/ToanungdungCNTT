@@ -87,27 +87,27 @@ void CholeskyLDL_Decomposition(double A[4][4], double L[4][4], double D[4], int 
 
 void printMatrix(double L[4][4], double D[4], int n) {
     cout << "Matrix L | D | L^T\n";
-    cout << fixed << setprecision(2);
+    cout << fixed << setprecision(5);
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             if (j > i)
-                cout << setw(6) << "0.00" << " ";
+                cout << setw(9) << "0.00" << " ";
             else
-                cout << setw(6) << L[i][j] << " ";
+                cout << setw(9) << L[i][j] << " ";
         }
         cout << " | ";
         for (int j = 0; j < n; j++) {
             if (i == j)
-                cout << setw(6) << D[i] << " ";
+                cout << setw(9) << D[i] << " ";
             else
-                cout << setw(6) << "0.00" << " ";
+                cout << setw(9) << "0.00" << " ";
         }
         cout << " | ";
         for (int j = 0; j < n; j++) {
             if (j < i)
-                cout << setw(6) << "0.00" << " ";
+                cout << setw(9) << "0.00" << " ";
             else
-                cout << setw(6) << L[j][i] << " ";
+                cout << setw(9) << L[j][i] << " ";
         }
         cout << "\n";
     }
