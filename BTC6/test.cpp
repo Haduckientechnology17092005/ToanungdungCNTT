@@ -207,3 +207,4 @@ void tinhMatranS(MatrixXd lambda, double sigma[][10], int rows, int cols){
                 k++;
         }
 }
+// g++ -I /usr/include/eigen3 /media/haduckien/E/Studying/HK3/Mathmetics\ for\ CS\ \(3\)/BTC6/test.cpp -o test

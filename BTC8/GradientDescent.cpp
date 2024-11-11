@@ -5,7 +5,6 @@
 
 using namespace std;
 
-// Gradient of f(x) = 1/x
  float function( float x) {
     return 2*log(2*x*x + 1) + 9*x + 3*exp(x*x) - 5;
 }

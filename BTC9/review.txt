@@ -1,0 +1,25 @@
+Phương pháp Augmented Lagrange Multiplier (ALM) và phương pháp Lagrange Multiplier đều là những phương pháp dùng để giải các bài toán tối ưu hóa có ràng buộc. Tuy nhiên, chúng khác nhau về cách tiếp cận và cách xử lý các ràng buộc:
+
+1. Phương pháp Lagrange Multiplier
+Cơ chế: Phương pháp này áp dụng khi có các ràng buộc bằng, sử dụng hàm Lagrange 
+𝐿(𝑥,𝜆)=𝑓(𝑥)+𝜆(𝑔(𝑥)−𝑐) 
+L(x,λ)=f(x)+λ(g(x)−c), với 𝑓(𝑥)f(x) là hàm mục tiêu, 𝑔(𝑥)=𝑐 
+g(x)=c là ràng buộc và 𝜆
+λ là nhân tử Lagrange.
+Nguyên lý hoạt động: Phương pháp tìm điểm cực trị của hàm mục tiêu với điều kiện thoả mãn ràng buộc bằng cách tìm nghiệm của hệ phương trình 
+∇𝑥𝐿=0
+∇xL=0 và ∇𝜆𝐿=0
+∇ λL=0.
+Hạn chế: Khó áp dụng khi có ràng buộc bất đẳng thức và dễ gặp vấn đề về hội tụ đối với các bài toán phi tuyến.
+2. Phương pháp Augmented Lagrange Multiplier (ALM)
+Cơ chế: Đây là phiên bản mở rộng của phương pháp Lagrange Multiplier, kết hợp với kỹ thuật hình phạt (penalty method). Phương pháp này tạo ra một hàm Lagrange mở rộng (Augmented Lagrangian) chứa thêm các điều khoản phạt để đảm bảo nghiệm hội tụ tốt hơn đối với các ràng buộc.
+Hàm mục tiêu ALM: Hàm Augmented Lagrangian có dạng 
+𝐿(𝑥,𝜆,𝜌)=𝑓(𝑥)+𝜆(𝑔(𝑥)−𝑐)+𝜌2(𝑔(𝑥)−𝑐) (2)
+L(x,λ,ρ)=f(x)+λ(g(x)−c)+ 2ρ(g(x)−c)^2, với 𝜌ρ là tham số phạt. Điều khoản 𝜌2(𝑔(𝑥)−𝑐)22ρ(g(x)−c)2
+giúp đảm bảo ràng buộc 
+𝑔(𝑥)=𝑐
+g(x)=c được thỏa mãn tốt hơn.
+Ưu điểm: ALM xử lý tốt hơn các bài toán phi tuyến và có thể áp dụng cho các ràng buộc bất đẳng thức. Phương pháp này giúp cải thiện độ hội tụ so với Lagrange Multiplier gốc, nhờ các điều khoản phạt.
+Tóm lại
+Lagrange Multiplier: Thích hợp cho các bài toán có ràng buộc bằng, có thể gặp khó khăn với các bài toán phi tuyến.
+Augmented Lagrange Multiplier (ALM): Thích hợp hơn cho các bài toán phi tuyến và phức tạp, kết hợp nhân tử Lagrange với điều khoản phạt giúp cải thiện độ hội tụ và tính khả thi khi áp dụng cho cả ràng buộc bằng và bất đẳng thức.
