@@ -107,12 +107,12 @@ pair<vector<double>, double> augmentedLagrangian(
         auto Afunc = [&](double x1, double x2) {
             double penalty = Ffunc(x1, x2);
 
-            for (size_t i = 0; i < gFuncs.size(); ++i) {
+            for (int i = 0; i < gFuncs.size(); ++i) {
                 penalty += lagrangeMultipliers[i] * max(gFuncs[i](x1, x2), -lagrangeMultipliers[i] / (2 * penaltyParameter))
                           + penaltyParameter * max(gFuncs[i](x1, x2), -lagrangeMultipliers[i] / (2 * penaltyParameter));
             }
 
-            for (size_t j = 0; j < HFuncs.size(); ++j) {
+            for (int j = 0; j < HFuncs.size(); ++j) {
                 penalty += lagrangeMultipliersH[j] * HFuncs[j](x1, x2) 
                           + penaltyParameter * pow(HFuncs[j](x1, x2), 2);
             }
@@ -127,14 +127,14 @@ pair<vector<double>, double> augmentedLagrangian(
         } else {
             x0 = minX;
         }
-        for(size_t i = 0; i < gFuncs.size(); ++i) {
+        for(int i = 0; i < gFuncs.size(); ++i) {
             cout << "Lambda[" << i << "]: " << lagrangeMultipliers[i]
                  << ", r: " << max(gFuncs[i](minX[0], minX[1]), 0.0)
                  << ", x1: " << minX[0]
                  << ", x2: " << minX[1]
                  << ", value of h: " << HFuncs[0](minX[0], minX[1]) << endl;
         }
-        for (size_t j = 0; j < HFuncs.size(); ++j) {
+        for (int j = 0; j < HFuncs.size(); ++j) {
             cout << "LambdaH[" << j << "]: " << lagrangeMultipliersH[j]
                  << ", r: " << HFuncs[j](minX[0], minX[1])
                  << ", x1: " << minX[0]
@@ -143,11 +143,11 @@ pair<vector<double>, double> augmentedLagrangian(
         }
 
         cout << "----------------------------------------" << endl;
-        for (size_t i = 0; i < gFuncs.size(); ++i) {
+        for (int i = 0; i < gFuncs.size(); ++i) {
             lagrangeMultipliers[i] += 2 * penaltyParameter * max(gFuncs[i](minX[0], minX[1]), -lagrangeMultipliers[i] / (2 * penaltyParameter));
         }
 
-        for (size_t j = 0; j < HFuncs.size(); ++j) {
+        for (int j = 0; j < HFuncs.size(); ++j) {
             lagrangeMultipliersH[j] += 2 * penaltyParameter * HFuncs[j](minX[0], minX[1]);
         }
 
