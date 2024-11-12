@@ -239,7 +239,6 @@ MatrixXd lagrange_jacobian(const VectorXd& vars, const double lambda) {
     int n = vars.size();
     MatrixXd jacobian(n + 1, n + 1);
     jacobian.setZero();
-
     jacobian(0, 0) = -lambda * 2;           // ∂²L/∂x1²
     jacobian(0, n) = -2 * vars(0);          // ∂²L/∂x1∂λ
     jacobian(1, 1) = -lambda * 4;           // ∂²L/∂x2²
@@ -252,7 +251,6 @@ MatrixXd lagrange_jacobian(const VectorXd& vars, const double lambda) {
 // Hàm kiểm tra điều kiện KKT (bao gồm λ ≥ 0 và λg(x) = 0)
 bool check_KKT_conditions(const VectorXd& vars, double lambda) {
     double g = constraint(vars);
-
     // Kiểm tra điều kiện KKT: λ ≥ 0 và λg(x) = 0
     if (lambda >= 0 && fabs(lambda * g) < 1e-6) {
         return true;
@@ -261,8 +259,8 @@ bool check_KKT_conditions(const VectorXd& vars, double lambda) {
     }
 }
 
-// Giải bài toán tối ưu hóa với phương pháp Newton-Raphson cho nhân tử Lagrange
-void solve_lagrange(VectorXd& vars, double& lambda) {
+// Giải bài toán tối đa hóa với phương pháp Newton-Raphson cho nhân tử Lagrange
+bool solve_lagrange(VectorXd& vars, double& lambda) {
     double tolerance = 1e-6;
     int max_iterations = 1000;
 
@@ -271,12 +269,12 @@ void solve_lagrange(VectorXd& vars, double& lambda) {
 
     for (int iter = 0; iter < max_iterations; iter++) {
         VectorXd grad = lagrange_grad(vars, lambda);
+        cout<<"Gradient: \n"<<grad<<endl;
         MatrixXd jacobian = lagrange_jacobian(vars, lambda);
-
+        cout<<"Jacobian: \n"<<jacobian<<endl;
         if (grad.norm() < tolerance) {
             break;
         }
-
         // Giải phương trình J * delta = -grad để tìm bước cập nhật
         VectorXd delta = jacobian.colPivHouseholderQr().solve(-grad);
 
@@ -285,28 +283,29 @@ void solve_lagrange(VectorXd& vars, double& lambda) {
         vars(1) += delta(1);
         lambda += delta(2);
         cout << "Iteration " << iter + 1 << ": x1 = " << vars(0) << ", x2 = " << vars(1) << ", lambda = " << lambda << endl;
-
         // Kiểm tra điều kiện KKT sau mỗi lần cập nhật
         if (check_KKT_conditions(vars, lambda)) {
             cout << "Điều kiện KKT thỏa mãn tại bước lặp thứ " << iter + 1 << endl;
             break;
         } else if(lambda < 0) {
             cout << "Không thỏa điều kiện KKT";
-            return;
+            return false;
         }
     }
+    return true;
 }
 
 int main() {
     VectorXd vars(2); // Các biến x1 và x2
     double lambda;
-
-    // Giải bài toán tối ưu hóa
-    solve_lagrange(vars, lambda);
-
-    cout << "Điểm tối ưu: x1 = " << vars(0) << ", x2 = " << vars(1) << endl;
-    cout << "Giá trị cực đại của f(x1, x2): " << objective(vars) << endl;
-    cout << "Nhân tử Lagrange (lambda): " << lambda << endl;
-
+    // Giải bài toán tối đa hóa
+    bool solved = solve_lagrange(vars, lambda);
+    if(solved) {
+        cout << "Optimal point: x1 = " << vars(0) << ", x2 = " << vars(1) << endl;
+        cout << "Maximum value of f(x1, x2): " << objective(vars) << endl;
+        cout << "Lagrange Multiplier (lambda): " << lambda << endl;
+    } else {
+        cout << "Nhập lại giá trị x1, x2, lambda" << endl;
+    }
     return 0;
 }
