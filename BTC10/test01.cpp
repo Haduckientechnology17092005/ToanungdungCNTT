@@ -94,8 +94,17 @@ double calculateProbability(const MatrixXd& P, const VectorXd& initialState, int
             }
         }
     }
+    // cout << "P^n = " << endl << P_n << endl;
     // Xác suất từ "Trung bình" lên "Giàu"
-    double probability = P_n(1, 0);
+    double probability = P_n(1, 0); 
+    for(int i = 0; i < P_n.rows(); ++i){
+        for(int j = 0; j < P_n.cols(); ++j){
+            if(i==1){
+                cout << "P(" << i << "|" << j << ") = " << P_n(i, j) << "\t";
+            }
+        }
+    }
+    cout << endl;
     return probability;
 }
 
@@ -110,7 +119,7 @@ int main() {
     VectorXd initialState(4);
     initialState << 0.0, 1.0, 0.0, 0.0;
     // Số bước cần tính
-    int steps = 3;
+    int steps = 5;
     cout << "Xác suất từ bình dân lên giàu: " << endl;
     for(int i = 1; i <= steps; ++i) {
         double probability = calculateProbability(P, initialState, i);

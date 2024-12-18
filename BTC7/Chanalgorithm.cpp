@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
@@ -32,13 +31,43 @@ class Point{
         return output;
     }
 } p0;
-int dist(Point p1, Point p2){
-    return (p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.y)*(p1.y - p2.y);
-}
+
 int orientation(Point p, Point q, Point r){
     int val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
     if (val == 0) return 0;
     return (val > 0)? -1: 1;
+}
+double dist(Point p1, Point p2){
+    return sqrt((p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.y)*(p1.y - p2.y));
+}
+
+pair<Point, Point> find_min_edge(vector<Point> v){
+    double min_dist = numeric_limits<double>::max();
+    int n = v.size();
+    pair<Point, Point> res;
+    for (int i = 0; i < n; i++){
+        int j = (i + 1) % n;
+        double distance = dist(v[i], v[j]);
+        if(distance < min_dist){
+            min_dist = distance;
+            res = {v[i], v[j]};
+        }
+    }
+    return res;
+}
+pair<Point, Point> find_closet_points(vector<Point> v, int n){
+    double min_dist = numeric_limits<double>::max();
+    pair<Point, Point> closet_pair;
+    for (int i = 0; i < n; i++){
+        for(int j = i + 1; j < n; j++){
+            double distance = dist(v[i], v[j]);
+            if(distance < min_dist){
+                min_dist = distance;
+                closet_pair = {v[i], v[j]};
+            }
+        }
+    }
+    return closet_pair;
 }
 int compare(const void *vp1, const void *vp2){
     Point *p1 = (Point *)vp1;
@@ -143,6 +172,7 @@ vector<Point> chansalgorithm(vector<Point> v) {
                     for(int j = 0; j < hull.size(); ++j) {
                         output.push_back(hulls[hull[j].first][hull[j].second]);
                     }
+                    output.pop_back();
                     return output; 
                 }
                 hull.push_back(p);
@@ -190,6 +220,7 @@ bool is_Point_in_convex_hull(const vector<Point>& hull, const Point& p) {
     }
     return true;
 }
+
 int main(){
     srand(time(0));
     int n = 15;
@@ -203,6 +234,14 @@ int main(){
     for(auto p : output) cout << p << "\t";
     cout << "\n";
     cout << "\nPolygon area: " << poly_area(output) << endl;
+    pair<Point, Point> min_edge = find_min_edge(output);
+    cout << "\nShortest edge in Convex Hull: (" << min_edge.first.x << ", " << min_edge.first.y << ") and (" 
+         << min_edge.second.x << ", " << min_edge.second.y << ")\n";
+    cout << "Length of shortest edge: " << dist(min_edge.first, min_edge.second) << endl;
+    pair<Point, Point> closet_points = find_closet_points(v, v.size()-1);
+    cout << "\nClosest points in Convex Hull: (" << closet_points.first.x << ", " << closet_points.first.y << ") and (" 
+         << closet_points.second.x << ", " << closet_points.second.y << ")\n";
+    cout << "Length of closest edge: " << dist(closet_points.first, closet_points.second) << endl;
     int m = 1;
     vector<Point> testPoint = generateRandomPoints(m, max_range);
     for (auto p : testPoint){
