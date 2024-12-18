@@ -119,7 +119,7 @@ int main() {
     VectorXd initialState(4);
     initialState << 0.0, 1.0, 0.0, 0.0;
     // Số bước cần tính
-    int steps = 5;
+    int steps = 3;
     cout << "Xác suất từ bình dân lên giàu: " << endl;
     for(int i = 1; i <= steps; ++i) {
         double probability = calculateProbability(P, initialState, i);
