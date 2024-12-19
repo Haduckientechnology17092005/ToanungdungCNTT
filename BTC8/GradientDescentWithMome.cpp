@@ -23,22 +23,17 @@ void optimize(double alpha, double beta, double x_init, double (*objFunc)(double
     double x = x_init;
     double v = 0.0; 
     int iterations = 0;
-
     while (iterations < 1000) {
         iterations++;
         double x_prev = x;
-        
         v = beta * v + (1 - beta) * gradFunc(x);
         x = x - alpha * v;
-
         cout << "Objective function value at iteration " << iterations << ": x = " << x << ", function value = " << objFunc(x) << endl;
-        
         if (fabs(x - x_prev) < 1e-5) {
             cout << "Optimization of the objective function completed." << endl;
             break;
         }
     }
-
     if (iterations == 1000) {
         cout << "Reached maximum iterations without convergence." << endl;
     }

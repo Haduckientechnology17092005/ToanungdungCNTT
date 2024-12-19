@@ -18,31 +18,22 @@ double derivativeY(double x, double y) {
     return dfy;
 }
 
-void optimize(double learningRate, double momentum, double &xStart, double &yStart) {
+void optimize(double learningRate, double &xStart, double &yStart) {
     double x = xStart;
     double y = yStart;
-    double velocityX = 0.0, velocityY = 0.0;
     int iterationCount = 0;
     while (iterationCount < 1000) {
         iterationCount++;
         double xPrev = x, yPrev = y;
-        // Calculate momentum and update the values of x and y
-        velocityX = momentum * velocityX + (1 - momentum) * derivativeX(x, y);
-        velocityY = momentum * velocityY + (1 - momentum) * derivativeY(x, y);
-        x = x - learningRate * velocityX;
-        y = y - learningRate * velocityY; 
-        // Print the values of x, y, and momentum (lambda) at each step
+        x = x - learningRate * derivativeX(x, y);
+        y = y - learningRate * derivativeY(x, y);
         cout << "Iteration " << iterationCount << ": x = " << x << ", y = " << y
-             << ", momentum_x = " << velocityX << ", momentum_y = " << velocityY
              << ", Objective function value = " << objectiveFunction(x, y) << endl;
-
-        // Check convergence condition
         if (fabs(x - xPrev) < 1e-5 && fabs(y - yPrev) < 1e-5) {
             cout << "Optimization completed successfully." << endl;
             break;
         }
     }
-    //check for maximum number of iterations
     if (iterationCount == 1000) {
         cout << "Reached maximum iterations without convergence." << endl;
     }
@@ -50,12 +41,11 @@ void optimize(double learningRate, double momentum, double &xStart, double &ySta
 }
 
 int main() {
-    double alpha = 0.01;   
-    double beta = 0.9;        
-    double xStart = 1.0;         
-    double yStart = 1.0;         
-    cout << "Optimizing the objective function using Gradient Descent with Momentum:" << endl;
-    optimize(alpha, beta, xStart, yStart);
+    double alpha = 0.01;
+    double xStart = 1.0; 
+    double yStart = 1.0;
+    cout << "Optimizing the objective function using Gradient Descent without Momentum:" << endl;
+    optimize(alpha, xStart, yStart);
     cout << "Goodbye!" << endl;
     return 0;
 }

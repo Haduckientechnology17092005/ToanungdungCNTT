@@ -94,8 +94,17 @@ double calculateProbability(const MatrixXd& P, const VectorXd& initialState, int
             }
         }
     }
+    // cout << "P^n = " << endl << P_n << endl;
     // Xác suất từ "Trung bình" lên "Giàu"
-    double probability = P_n(1, 0);
+    double probability = P_n(1, 0); 
+    for(int i = 0; i < P_n.rows(); ++i){
+        for(int j = 0; j < P_n.cols(); ++j){
+            if(i==1){
+                cout << "P(" << i << "|" << j << ") = " << P_n(i, j) << "\t";
+            }
+        }
+    }
+    cout << endl;
     return probability;
 }
 

@@ -98,7 +98,7 @@ void GetEigenValuesAndVector(MatrixXd S, MatrixXd &lambda, MatrixXd &vector) {
 		if (lambda(i, 0) < 0.000001) 
 			lambda(i, 0) = 0;
 	}
-    for (int i = 0; i < k; i++)
+    for (int i = 0; i < k; i++) {
         for (int j = i + 1; j < k; j++)
         {
             if (lambda(j, 0) > lambda(i, 0))
@@ -108,6 +108,7 @@ void GetEigenValuesAndVector(MatrixXd S, MatrixXd &lambda, MatrixXd &vector) {
                     swap(vector(h, i), vector(h, j));
             }
         }
+    }
 }
 
 void tinhMatranU(MatrixXd lambda, MatrixXd vector, double U[][10], double A[][10], int rows, int cols) {

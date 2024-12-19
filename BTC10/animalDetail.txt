@@ -1,0 +1,167 @@
+1000,Afghan Hound,20,male,1
+1001,Afghan Hound,12,female,1
+1002,Afghan Hound,20,male,1
+1003,Afghan Hound,15,male,1
+1004,Afghan Hound,20,female,1
+1005,Akita,30,male,1
+1006,Akita,20,female,1
+1007,Alabai,16,male,1
+1008,Alabai,20,female,1
+1009,Alabai,20,male,1
+1010,Alaska,20,female,1
+1011,Alaska,20,male,1
+1012,American Bully,20,male,1
+1013,American Bully,20,female,1
+1014,Australian Shepherd,20,male,1
+1015,Australian Shepherd,20,female,1
+1016,Bac Ha,20,male,1
+1017,Bac Ha,20,female,1
+1018,Bac Ha,20,male,1
+1019,Bac Kinh,20,female,1
+1020,Bac Kinh,20,male,1
+1021,Bac Kinh,20,female,1
+1022,Bac Kinh,20,male,1
+1023,Basenji,20,female,1
+1024,Basenji,20,male,1
+1025,Basenji,20,female,1
+1026,Basset Hound,20,male,1
+1027,Basset Hound,20,female,1
+1028,Basset Hound,20,male,1
+1029,Beagle,20,female,1
+1030,Beagle,20,male,1
+1031,Becgie Duc,30,female,1
+1032,Becgie Duc,40,male,1
+1033,Becgie Duc,30,male,1
+1034,Bichon,20,male,1
+1035,Bichon,20,female,1
+1036,Border Collie,20,male,1
+1037,Border Collie,20,female,1
+1038,Border Collie,20,male,1
+1039,Boston Terrier,20,female,1
+1040,Boston Terrier,20,male,1
+1041,Boxer,20,female,1
+1042,Boxer,20,male,1
+1043,Boxer,20,female,1
+1044,Bull Anh,20,female,1
+1045,Bull Anh,20,male,1
+1046,Bull Anh,20,male,1
+1047,Bull Anh,20,female,1
+1048,Bull Phap,20,male,1
+1049,Bull Phap,20,female,1
+1050,Bull Phap,20,male,1
+1051,Bull Terrier,20,female,1
+1052,Bull Terrier,20,male,1
+1053,Bull Terrier,20,female,1
+1054,Caucasian Shepherd,20,female,1
+1055,Caucasian Shepherd,20,male,1
+1056,Caucasian Shepherd,20,female,1
+1057,Caucasian Shepherd,20,male,1
+1058,Cavalier,20,female,1
+1059,Cavalier,20,male,1
+1060,Cavalier,20,male,1
+1061,Chihuahua,5,female,1
+1062,Chihuahua,5,male,1
+1063,Chinese Crested,20,female,1
+1064,Chinese Crested,20,male,1
+1065,Chinese Crested,20,female,1
+1066,Chow Chow,20,female,1
+1067,Chow Chow,20,male,1
+1068,Chow Chow,20,female,1
+1069,Chow Chow,20,male,1
+1070,Cocker Spaniel,20,female,1
+1071,Cocker Spaniel,20,male,1
+1072,Dalmatian,20,female,1
+1073,Dalmatian,20,male,1
+1074,Dalmatian,20,female,1
+1075,Doberman,20,female,1
+1076,Doberman,20,male,1
+1077,Doberman,20,female,1
+1078,German Pinscher,20,female,1
+1079,German Pinscher,20,male,1
+1080,German Pinscher,20,female,1
+1081,Golden Retriever,20,female,1
+1082,Golden Retriever,20,male,1
+1083,Great Dane,20,female,1
+1084,Great Dane,20,male,1
+1085,Great Dane,20,female,1
+1086,Great Dane,20,male,1
+1087,Pembroke,20,female,1
+1088,Pembroke,20,male,1
+1089,Abyssinian,20,male,1
+1090,Abyssinian,20,female,1
+1091,Abyssinian,20,male,1
+1092,Abyssinian,20,female,1
+1093,Abyssinian,20,male,1
+1094,Bengal,20,female,1
+1095,Bengal,20,male,1
+1096,Bengal,20,male,1
+1097,Bengal,20,female,1
+1098,Khao Manee,20,male,1
+1099,Khao Manee,20,female,1
+1100,Maine Coon,20,male,1
+1101,Maine Coon,20,female,1
+1102,Maine Coon,20,male,1
+1103,Maine Coon,20,female,1
+1104,Maine Coon,20,male,1
+1105,Maine Coon,20,female,1
+1106,Maine Coon,20,male,1
+1107,Maine Coon,20,female,1
+1108,Maine Coon,20,male,1
+1109,British Shorthair,20,female,1
+1110,British Shorthair,20,male,1
+1111,British Shorthair,20,female,1
+1112,British Shorthair,20,male,1
+1113,British Shorthair,20,female,1
+1114,Persian,20,male,1
+1115,Persian,20,female,1
+1116,Persian,20,male,1
+1117,Persian,20,female,1
+1118,Sphynx,20,female,1
+1119,Sphynx,20,male,1
+1120,Munchkin,5,male,1
+1121,Munchkin,5,female,1
+1122,American Shorthair,5,male,1
+1123,American Shorthair,5,female,1
+1124,American Shorthair,5,male,1
+1125,American Shorthair,5,female,1
+1126,American Shorthair,5,male,1
+1127,American Shorthair,5,female,1
+1128,Norwegian Forest,20,female,1
+1129,Norwegian Forest,20,male,1
+1130,Norwegian Forest,20,female,1
+1131,Norwegian Forest,20,male,1
+1132,Norwegian Forest,20,female,1
+1133,Savannah,20,male,1
+1134,Savannah,20,female,1
+1135,Savannah,20,male,1
+1136,Scottish Fold,20,male,1
+1137,Scottish Fold,20,female,1
+1138,Scottish Fold,20,male,1
+1139,Scottish Fold,20,female,1
+1140,Siberian,10,female,1
+1141,Siberian,8,male,1
+1142,Siberian,5,female,1
+1143,Somali,10,male,1
+1144,Somali,5,female,1
+1145,Somali,5,male,1
+1146,Birman,10,female,1
+1147,Birman,10,male,1
+1148,Birman,10,female,1
+1149,Birman,10,male,1
+1150,Tuxedo,6,male,1
+1151,Tuxedo,6,female,1
+1152,Tuxedo,6,male,1
+1153,Tuxedo,6,female,1
+1154,Siamese,6,female,1
+1155,Siamese,6,male,1
+1156,Siamese,6,female,1
+1157,Siamese,6,male,1
+1158,Ragdoll,6,female,1
+1159,Ragdoll,6,male,1
+1160,Ragdoll,6,female,1
+1161,Ragdoll,6,male,1
+1162,Russian Blue,7,female,1
+1163,Russian Blue,7,male,1
+1164,Russian Blue,7,female,1
+1165,Turkish Angora,15,male,1
+1166,Turkish Angora,15,female,1

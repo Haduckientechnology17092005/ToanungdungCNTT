@@ -1,0 +1,51 @@
+2022,1,100,51,Bengal
+2022,2,120,90,Tuxedo
+2022,3,150,99,Siberian
+2022,4,180,2,Siamese
+2022,5,200,96,Ragdoll
+2022,6,220,33,Akita
+2022,7,250,39,Alaska
+2022,8,280,49,Alaska
+2022,3,150,99,Siberian
+2022,9,300,6,Savannah
+2022,10,234,99,American Shorthair
+2022,11,210,32,Turkish Angora
+2022,12,230,42,Bichon
+2023,1,1000,89,Boston Terrier
+2023,2,1500,97,Chow Chow
+2023,3,1800,37,Norwegian Forest
+2023,4,1200,40,Somali
+2023,5,1600,96,Becgie Duc
+2023,6,1700,29,Bull Anh
+2023,7,1900,75,Chihuahua
+2023,8,2100,36,Munchkin
+2023,9,2500,39,Birman
+2023,10,2300,63,Sphynx
+2023,11,2200,92,Siberian
+2023,12,2400,19,Ragdoll
+2024,1,2000,64,Golden Retriever
+2024,2,2200,87,Ragdoll
+2024,3,2500,17,Chihuahua
+2024,4,2300,12,Chihuahua
+2024,5,2800,56,Chihuahua
+2024,7,3000,48,Caucasian Shepherd
+2024,8,3500,82,Border Collie
+2024,9,3700,75,Cavalier
+2024,9,4000,10,Scottish Fold
+2024,10,3800,47,Khao Manee
+2024,11,3600,44,Khao Manee
+2024,11,2000,1,Afghan Hound
+2024,11,4000,2,Afghan Hound
+2024,11,3600,2,Bengal
+2024,11,15,1,Akita
+2024,11,16,1,Australian Shepherd
+2024,11,14,2,Bac Kinh
+2024,11,14,2,Bac Kinh
+2024,11,18,1,Alabai
+2024,11,8,1,Bac Ha
+2024,11,26,2,Becgie Duc
+2024,11,12,1,Bull Terrier
+2024,11,28,2,American Bully
+2024,11,15,1,Abyssinian
+2024,11,12,1,Khao Manee
+2024,11,20,1,Russian Blue

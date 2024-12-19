@@ -15,6 +15,37 @@ struct Point {
         return y < other.y;
     }
 };
+double dist(Point p1, Point p2){
+    return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
+}
+pair<Point, Point> find_min_edge(vector<Point> v){
+    double min_dist = numeric_limits<double>::max();
+    int n = v.size();
+    pair<Point, Point> res;
+    for (int i = 0; i < n; i++){
+        int j = (i + 1) % n;
+        double distance = dist(v[i], v[j]);
+        if(distance < min_dist){
+            min_dist = distance;
+            res = {v[i], v[j]};
+        }
+    }
+    return res;
+}
+pair<Point, Point> find_closet_points(vector<Point> v, int n){
+    double min_dist = numeric_limits<double>::max();
+    pair<Point, Point> closet_pair;
+    for (int i = 0; i < n; i++){
+        for(int j = i + 1; j < n; j++){
+            double distance = dist(v[i], v[j]);
+            if(distance < min_dist){
+                min_dist = distance;
+                closet_pair = {v[i], v[j]};
+            }
+        }
+    }
+    return closet_pair;
+}
 vector<Point> generateRandomPoints(int numberOfPoints, int maxRange) {
     vector<Point> points;
     srand(time(nullptr));
@@ -127,6 +158,14 @@ int main() {
     }
     double hullArea = calculateHullArea(hull);
     cout << "Convex Hull Area: " << hullArea << endl;
+    pair<Point, Point> minEdge = find_min_edge(hull);
+    cout << "Shortest edge in Convex Hull: (" << minEdge.first.x << ", " << minEdge.first.y << ") and (" 
+         << minEdge.second.x << ", " << minEdge.second.y << ")\n";
+    cout << "Length of shortest edge: " << dist(minEdge.first, minEdge.second) << endl;
+    pair<Point, Point> closestPoints = find_closet_points(points, points.size() - 1);
+    cout << "Closest points: (" << closestPoints.first.x << ", " << closestPoints.first.y << ") and (" 
+         << closestPoints.second.x << ", " << closestPoints.second.y << ")\n";
+    cout << "Distance between closest points: " << dist(closestPoints.first, closestPoints.second) << endl;
     int m = 1;
     vector<Point> testPoints = generateRandomPoints(m, maxRange);
     for (const auto& point : testPoints) {
