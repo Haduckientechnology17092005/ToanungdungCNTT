@@ -32,14 +32,12 @@ void newtonRaphson(double (*func)(double), double (*derivFunc)(double), double i
         h = func(x) / derivFunc(x);
         x = x - h;
         iterations++;
-
         // Debug outputs
         cout << "Iteration " << iterations << ": x = " << x 
              << ", func(x) = " << func(x) 
              << ", derivFunc(x) = " << derivFunc(x) 
              << ", h = " << h << endl;
     }
-    
     if (iterations < MAX_ITERATIONS) {
         cout << "The root of the function is approximately: " << x << endl;
     } else {

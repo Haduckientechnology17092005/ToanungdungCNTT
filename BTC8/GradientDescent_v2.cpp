@@ -22,23 +22,18 @@ void optimize(double learningRate, double &xStart, double &yStart) {
     double x = xStart;
     double y = yStart;
     int iterationCount = 0;
-
     while (iterationCount < 1000) {
         iterationCount++;
         double xPrev = x, yPrev = y;
-
         x = x - learningRate * derivativeX(x, y);
         y = y - learningRate * derivativeY(x, y);
-
         cout << "Iteration " << iterationCount << ": x = " << x << ", y = " << y
              << ", Objective function value = " << objectiveFunction(x, y) << endl;
-
         if (fabs(x - xPrev) < 1e-5 && fabs(y - yPrev) < 1e-5) {
             cout << "Optimization completed successfully." << endl;
             break;
         }
     }
-
     if (iterationCount == 1000) {
         cout << "Reached maximum iterations without convergence." << endl;
     }
