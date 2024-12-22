@@ -14,6 +14,9 @@ struct Point {
         if (x != other.x) return x < other.x;
         return y < other.y;
     }
+    bool operator==(const Point& other) const {
+        return x == other.x && y == other.y;
+    }
 };
 double dist(Point p1, Point p2){
     return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
@@ -142,10 +145,28 @@ bool isPointInHull(const vector<Point>& hull, const Point& p) {
     }
     return true;
 }
+bool is_In_Vector(const vector<Point>& v, const Point& p) {
+    int n = v.size();
+    for (int i = 0; i < n; i++) {
+        if (v[i] == p) {
+            return true;
+        }
+    }
+    return false;
+}
+vector<Point> elements_In_A_And_Not_In_B(const vector<Point>& A, const vector<Point>& B) {
+    vector<Point> result;
+    for (const auto& point : A) {
+        if(!is_In_Vector(B,point)){
+            result.push_back(point);
+        }
+    }
+    return result;
+}
 int main() {
     int n = 15;
     int maxRange = 20;
-    vector<Point> points = generateRandomPoints(n, maxRange);
+    vector<Point> points = {{6,2}, {8,3}, {4,10}, {3,5}, {16,5}, {9,7}, {11,6}, {10, 12}, {8,9}, {7,6}};
     cout<<"Random points:\n";
     for (const auto& point : points) {
         cout << "(" << point.x << ", " << point.y << ") ";
@@ -166,8 +187,14 @@ int main() {
     cout << "Closest points: (" << closestPoints.first.x << ", " << closestPoints.first.y << ") and (" 
          << closestPoints.second.x << ", " << closestPoints.second.y << ")\n";
     cout << "Distance between closest points: " << dist(closestPoints.first, closestPoints.second) << endl;
+    vector<Point> points_inside = elements_In_A_And_Not_In_B(points, hull);
+    cout << "Points inside the Convex Hull:\n";
+    for (const auto& point : points_inside) {
+        cout << "(" << point.x << ", " << point.y << ")" << endl;
+    }
     int m = 1;
     vector<Point> testPoints = generateRandomPoints(m, maxRange);
+    cout << "Random points:\n";
     for (const auto& point : testPoints) {
         cout << "(" << point.x << ", " << point.y << ")" << endl;
     }

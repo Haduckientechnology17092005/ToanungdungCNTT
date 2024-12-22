@@ -3,9 +3,11 @@ using namespace std;
 
 struct Point {
     int x, y;
-
     bool operator <(const Point &p) const {
         return x < p.x || (x == p.x && y < p.y);
+    }
+    friend bool operator== (const Point& p1,const Point& p2){
+        return (p1.x==p2.x && p1.y==p2.y);
     }
 };
 int orientation(Point p, Point q, Point r) {
@@ -14,7 +16,6 @@ int orientation(Point p, Point q, Point r) {
     if (val == 0) return 0; 
     return (val > 0) ? 1 : 2; 
 }
-
 vector<Point> convexHull(Point points[], int n) {
     if (n < 3) return {};
     vector<Point> hull;
@@ -31,15 +32,12 @@ vector<Point> convexHull(Point points[], int n) {
                 q = i;
         }
         p = q;
-
     } while (p != l); 
     return hull;
 }
-
 double distance(const Point &A, const Point &B) {
     return sqrt((A.x - B.x) * (A.x - B.x) + (A.y - B.y) * (A.y - B.y));
 }
-
 pair<Point, Point> find_min_edge(const vector<Point> &P) {
     double min_dist = DBL_MAX;
     pair<Point, Point> res;
@@ -98,11 +96,29 @@ void generate_random_points(Point points[], int n, int max_x, int max_y) {
         points[i].y = rand() % max_y;
     }
 }
+bool is_In_Vector(const vector<Point>& v, const Point& p) {
+    int n = v.size();
+    for (int i = 0; i < n; i++) {
+        if (v[i] == p) {
+            return true;
+        }
+    }
+    return false;
+}
+vector<Point> elements_In_A_And_Not_In_B(const Point points[], const vector<Point>& A, int n) {
+    vector<Point> result;
+    for (int i = 0; i < n; i++) {
+        if(!is_In_Vector(A, points[i])){
+            result.push_back(points[i]);
+        }
+    }
+    return result;
+}
 int main() {
     int n = 10; 
-    Point points[n];
-    int max_x = 10, max_y = 10; 
-    generate_random_points(points, n, max_x, max_y);
+    Point points[n] = {{6,2}, {8,3}, {4,10}, {3,5}, {16,5}, {9,7}, {11,6}, {10, 12}, {8,9}, {7,6}};
+    // int max_x = 10, max_y = 10; 
+    // generate_random_points(points, n, max_x, max_y);
     cout << "Generated Random Points:\n";
     for (int i = 0; i < n; i++) {
         cout << "(" << points[i].x << ", " << points[i].y << ")\n";
@@ -121,6 +137,11 @@ int main() {
     cout << "\nClosest points in the set: (" << closest_pair.first.x << ", " << closest_pair.first.y << ") and ("
     << closest_pair.second.x << ", " << closest_pair.second.y << ")\n";
     cout << "Distance between closest points: " << distance(closest_pair.first, closest_pair.second) << endl;
+    vector<Point> points_inside = elements_In_A_And_Not_In_B(points, hull, n);
+    cout << "\nPoints inside the Convex Hull:\n";
+    for (const auto& point : points_inside) {
+        cout << "(" << point.x << ", " << point.y << ")\n";
+    }
     Point test_point = {1, 2}; 
     if (is_inside_hull(test_point, hull)) {
         cout << "\nPoint (" << test_point.x << ", " << test_point.y << ") is inside the convex hull.\n";

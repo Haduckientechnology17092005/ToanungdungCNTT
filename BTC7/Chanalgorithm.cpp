@@ -172,7 +172,7 @@ vector<Point> chansalgorithm(vector<Point> v) {
                     for(int j = 0; j < hull.size(); ++j) {
                         output.push_back(hulls[hull[j].first][hull[j].second]);
                     }
-                    output.pop_back();
+                    // output.pop_back();
                     return output; 
                 }
                 hull.push_back(p);
@@ -221,33 +221,51 @@ bool is_Point_in_convex_hull(const vector<Point>& hull, const Point& p) {
     return true;
 }
 
+bool is_In_Vector(const vector<Point>& v, const Point& p) {
+    int n = v.size();
+    for (int i = 0; i < n; i++) {
+        if (v[i] == p) {
+            return true;
+        }
+    }
+    return false;
+}
+vector<Point> elements_In_A_And_Not_In_B(const vector<Point>& A, const vector<Point>& B) {
+    vector<Point> result;
+    for (const auto& point : A) {
+        if(!is_In_Vector(B,point)){
+            result.push_back(point);
+        }
+    }
+    return result;
+}
 int main(){
     srand(time(0));
     int n = 15;
     int max_range = 20;
-    vector<Point> v = generateRandomPoints(n, max_range);
-    cout << "Random Points: \n";
+    vector<Point> v = {{6,2}, {8,3}, {4,10}, {3,5}, {16,5}, {9,7}, {11,6}, {10, 12}, {8,9}, {7,6}};
+    cout << "Original Points: \n";
     for (auto p : v) cout << p << "\t";
     cout << endl;
     vector<Point> output = chansalgorithm(v);
-    cout << "\nConvex hull: \n";
+    cout << "Convex hull: \n";
     for(auto p : output) cout << p << "\t";
     cout << "\n";
-    cout << "\nPolygon area: " << poly_area(output) << endl;
+    cout << "Polygon area: " << poly_area(output) << endl;
     pair<Point, Point> min_edge = find_min_edge(output);
-    cout << "\nShortest edge in Convex Hull: (" << min_edge.first.x << ", " << min_edge.first.y << ") and (" 
+    cout << "Shortest edge in Convex Hull: (" << min_edge.first.x << ", " << min_edge.first.y << ") and (" 
          << min_edge.second.x << ", " << min_edge.second.y << ")\n";
     cout << "Length of shortest edge: " << dist(min_edge.first, min_edge.second) << endl;
     pair<Point, Point> closet_points = find_closet_points(v, v.size()-1);
-    cout << "\nClosest points in Convex Hull: (" << closet_points.first.x << ", " << closet_points.first.y << ") and (" 
+    cout << "Closest points in Convex Hull: (" << closet_points.first.x << ", " << closet_points.first.y << ") and (" 
          << closet_points.second.x << ", " << closet_points.second.y << ")\n";
     cout << "Length of closest edge: " << dist(closet_points.first, closet_points.second) << endl;
-    int m = 1;
-    vector<Point> testPoint = generateRandomPoints(m, max_range);
-    for (auto p : testPoint){
-        cout << "Test Point: " << p << "\t";
-    }
+    cout << "Points inside Convex Hull: \n";
+    vector<Point> points_inside = elements_In_A_And_Not_In_B(v, output);
+    for (auto p : points_inside) cout << p << "\t";
     cout << endl;
+    int m = 1;
+    vector<Point> testPoint = {{7, 8}};
     if (is_Point_in_convex_hull(output, testPoint[0])) {
         cout << "Point " << testPoint[0] << " is in the convex hull." << endl;
     } else {

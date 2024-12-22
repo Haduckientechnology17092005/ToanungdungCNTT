@@ -14,6 +14,13 @@ struct Point {
 	{
 		return x < p.x || (x == p.x && y < p.y);
 	}
+    friend bool operator== (const Point& p1,const Point& p2){
+        return (p1.x==p2.x && p1.y==p2.y);
+    }
+    friend ostream& operator<<(ostream& output,const Point& p){
+        output<<"("<<p.x<<","<<p.y<<")";
+        return output;
+    }
 };
 double cross(const Point &O, const Point &A, const Point &B) 
 {
@@ -22,6 +29,11 @@ double cross(const Point &O, const Point &A, const Point &B)
 double distance(const Point &A, const Point &B)
 {
 	return sqrt((A.x - B.x) * (A.x - B.x) + (A.y- B.y) * (A.y- B.y));
+}
+int orientation(Point p, Point q, Point r){
+    int val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
+    if (val == 0) return 0;
+    return (val > 0)? -1: 1;
 }
 pair<Point, Point> find_min_dist_recursive(vector<Point> &Px, vector<Point> &Py) {
     int n = Px.size();
@@ -160,20 +172,41 @@ int orientation(pair<int, int> a, pair<int, int> b, pair<int, int> c) {
 }
 bool pointInConvexHull(const vector<pair<int, int>>& hull, pair<int, int> point) {
     int n = hull.size();
-    for (int i = 0; i < n; i++) {
-        int j = (i + 1) % n;
-        if (orientation(hull[i], hull[j], point) < 0)
-            return false; 
+    if (n < 3) return false;
+    for (int i = 0; i < n; ++i) {
+        int next = (i + 1) % n; 
+        int orient = orientation(hull[i], hull[next], point);
+        if (orient == -1) {
+            return false;
+        }
     }
     return true;
 }
-
+bool is_In_Vector(const vector<Point>& v, const Point& p) {
+    int n = v.size();
+    for (int i = 0; i < n; i++) {
+        if (v[i] == p) {
+            return true;
+        }
+    }
+    return false;
+}
+vector<Point> elements_In_A_And_Not_In_B(const vector<Point>& A, const vector<Point>& B) {
+    vector<Point> result;
+    for (const auto& point : A) {
+        if(!is_In_Vector(B,point)){
+            result.push_back(point);
+        }
+    }
+    return result;
+}
 int main() 
 {
     srand(time(0));
     int n = 15;
     int max_range = 10;
-    vector<Point> P = generate_unique_points(n, max_range);
+    // vector<Point> P = generate_unique_points(n, max_range);
+    vector<Point> P = {{6,2}, {8,3}, {4,10}, {3,5}, {16,5}, {9,7}, {11,6}, {10, 12}, {8,9}, {7,6}};
     cout << "Danh sach cac diem dau vao: \n";
     for (auto &p : P) cout << "(" << p.x << ", " << p.y << ")\t";
     cout << endl;
@@ -189,9 +222,7 @@ int main()
     cout << "(" << res_min_dist.first.x << ", " << res_min_dist.first.y << ") va "
          << "(" << res_min_dist.second.x << ", " << res_min_dist.second.y << ")\n";
     cout << "Voi khoang cach la: " << distance(res_min_dist.first, res_min_dist.second) << endl;
-    
     cout << endl;
-    
     pair<Point, Point> res_min_edge = find_min_edge(res);
     cout << "Canh be nhat cua bao loi la ";
     cout << "(" << res_min_edge.first.x << ", " << res_min_edge.first.y << ") va "
@@ -201,13 +232,11 @@ int main()
     for (auto &p : res) {
         convexHullPoints.push_back({(int)p.x, (int)p.y});
     }
-    pair<int, int> randomPoint = {2, 0}; 
-    if (pointInConvexHull(convexHullPoints, randomPoint)) {
-        cout << "Point (" << randomPoint.first << ", " << randomPoint.second << ") is inside the convex hull.\n";
-    } else {
-        cout << "Point (" << randomPoint.first << ", " << randomPoint.second << ") is outside the convex hull.\n";
-    }
-    
+    cout << "Points inside Convex Hull: \n";
+    vector<Point> points_inside = elements_In_A_And_Not_In_B(P, res);
+    for (auto p : points_inside) cout << p << "\t";
+    cout << endl;
+    pair<int, int> randomPoint = {7, 6};
     return 0;
 }
 

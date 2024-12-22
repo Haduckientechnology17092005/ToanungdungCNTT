@@ -46,11 +46,12 @@ MatrixXd inverseMatrix(const MatrixXd& matrix) {
     return augmented.block(0, n, n, n);
 }
 // Hàm tính toán xác suất sau một số bước nhất định
-double calculateProbability(const MatrixXd& P, const VectorXd& initialState, int steps) {
+double calculateProbability(const MatrixXd& P, const int status, int steps) {
     // Chéo hóa ma trận P
     EigenSolver<MatrixXd> solver(P);
     MatrixXd Q = solver.eigenvectors().real();         // Ma trận vector riêng (thực)
-    MatrixXd Q_inv = inverseMatrix(Q);                  // Nghịch đảo ma trận Q
+    // MatrixXd Q_inv = inverseMatrix(Q);                  // Nghịch đảo ma trận Q
+    MatrixXd Q_inv = Q.inverse();
     // Lấy giá trị riêng (phần thực) từ solver.eigenvalues()
     VectorXd realEigenvalues = solver.eigenvalues().real(); // Giá trị riêng (phần thực)
     // Tạo ma trận đường chéo Lambda từ giá trị riêng thực
@@ -73,6 +74,7 @@ double calculateProbability(const MatrixXd& P, const VectorXd& initialState, int
             }
         }
     }
+    cout << "Lambda = " << endl << Lambda_n << endl;
     // Tính P^n = Q * Lambda^n * Q^(-1)
     MatrixXd P_n_temp(Q.rows(), Q.cols());
     //Nhan Q và Lambda_n
@@ -99,11 +101,12 @@ double calculateProbability(const MatrixXd& P, const VectorXd& initialState, int
     double probability = P_n(1, 0); 
     for(int i = 0; i < P_n.rows(); ++i){
         for(int j = 0; j < P_n.cols(); ++j){
-            if(i==1){
+            if(i==status){
                 cout << "P(" << i << "|" << j << ") = " << P_n(i, j) << "\t";
             }
         }
     }
+    cout << "\nMatrix: \n" << P_n << endl;
     cout << endl;
     return probability;
 }
@@ -111,19 +114,19 @@ double calculateProbability(const MatrixXd& P, const VectorXd& initialState, int
 int main() {
     // Ma trận chuyển đổi trạng thái
     MatrixXd P(4, 4);
-    P << 0.0, 0.75, 0.2, 0.05,  // Giàu
-         0.05, 0.2, 0.3, 0.45,  // Trung bình
-         0.1, 0.4, 0.3, 0.2,    // Nghèo
-         0.0, 0.15, 0.3, 0.55;  // Nợ
+    P << 0.0, 0.5, 0.3, 0.2,  // Giàu
+         0.1, 0.2, 0.55, 0.15,  // Trung bình
+         0.4, 0.3, 0.2, 0.1,    // Nghèo
+         0.0, 0.25, 0.35, 0.4;  // Nợ
     // Trạng thái ban đầu
-    VectorXd initialState(4);
-    initialState << 0.0, 1.0, 0.0, 0.0;
+    int status = 2;
     // Số bước cần tính
-    int steps = 3;
+    int steps = 4;
     cout << "Xác suất từ bình dân lên giàu: " << endl;
     for(int i = 1; i <= steps; ++i) {
-        double probability = calculateProbability(P, initialState, i);
+        double probability = calculateProbability(P, status, i);
         cout << "Xác suất sau " << i << " bước: " << probability << endl;
     }
     return 0;
 }
+// g++ -I /usr/include/eigen3 /media/haduckien/E/Studying/HK3/Mathmetics\ for\ CS\ \(3\)/BTC6/test.cpp -o test

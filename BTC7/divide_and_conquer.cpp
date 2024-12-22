@@ -202,19 +202,37 @@ bool pointInConvexHull(const vector<pair<int, int>>& hull, pair<int, int> point)
     }
     return true;
 }
-
-int main() {
-    vector<pair<int, int>> a;
-    srand(time(0));
-    set<int> uniqueY; 
-    while (a.size() < 15) {
-        int x = rand() % 21; 
-        int y = rand() % 21;
-        if (uniqueY.find(y) == uniqueY.end()) {
-            a.push_back(make_pair(x, y));
-            uniqueY.insert(y);
+bool is_In_Vector(const vector<pair<int, int>>& v, const pair<int, int>& p) {
+    int n = v.size();
+    for (int i = 0; i < n; i++) {
+        if (v[i] == p) {
+            return true;
         }
     }
+    return false;
+}
+vector<pair<int, int>> elements_In_A_And_Not_In_B(const vector<pair<int, int>>& A, const vector<pair<int, int>>& B) {
+    vector<pair<int, int>> result;
+    int n = A.size();
+    for (int i = 0; i < n; i++) {
+        if (!is_In_Vector(B, A[i])) {
+            result.push_back(A[i]);
+        }
+    }
+    return result;
+}
+int main() {
+    vector<pair<int, int>> a = {{6,2}, {8,3}, {4,10}, {3,5}, {16,5}, {9,7}, {11,6}, {10, 12}, {8,9}, {7,6}};
+    srand(time(0));
+    set<int> uniqueY; 
+    // while (a.size() < 15) {
+    //     int x = rand() % 21; 
+    //     int y = rand() % 21;
+    //     if (uniqueY.find(y) == uniqueY.end()) {
+    //         a.push_back(make_pair(x, y));
+    //         uniqueY.insert(y);
+    //     }
+    // }
     cout<<"Original Points:\n";
     for(auto p : a){
         cout<<"("<<p.first<<" "<<p.second<<")"<<setw(3);
@@ -228,6 +246,10 @@ int main() {
     cout << "Area of Convex Hull: " << polygonArea(ans) << endl;
     cout << "Shortest Distance Between Two Points: " << shortestDistance(a) << endl;
     cout << "Smallest Edge of Convex Hull: " << smallestEdge(ans) << endl;
+    vector<pair<int, int>> points_inside = elements_In_A_And_Not_In_B(a, ans);
+    cout << "Points inside Convex Hull:\n";
+    for(auto e : points_inside)
+        cout << "(" << e.first << " " << e.second << ")\t" << endl;
     pair<int, int> randomPoint = {2,0};
     if (pointInConvexHull(ans, randomPoint)) {
         cout << "Point (" << randomPoint.first << ", " << randomPoint.second << ") is inside the convex hull.\n";
