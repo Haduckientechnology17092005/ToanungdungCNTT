@@ -50,22 +50,22 @@ void markovSteps(vector<double> initialState, vector<vector<double>> transitionM
             cout << state << " ";
         }
         cout << endl;
-        cout << "Xac suat he thong lam viec o trang thai 1 sau " << step << " la " << currentState[0]<< endl;
+        cout << "Xac suat he thong lam viec o trang thai 1 sau " << step << " la " << currentState[3]<< endl;
     }
 }
 
 int main() {
     vector<vector<double>> transitionMatrix = {
-        {0.0, 0.2, 0.5, 0.3},
-        {0.05, 0.2, 0.3, 0.45},
-        {0.4, 0.1, 0.3, 0.2},
-        {0.0, 0.3, 0.15, 0.55}
+        {0.23, 0.17, 0.33, 0.27},
+        {0.21, 0.35, 0.23, 0.21},
+        {0.18, 0.22, 0.28, 0.32},
+        {0.19, 0.37, 0.09, 0.35}
     };
 
-    int k = 3;// số lần lặp
+    int k = 4;// số lần lặp
 
     // Nhập trạng thái ban đầu
-    vector<double> initialState = {0, 0, 1, 0};
+    vector<double> initialState = {0, 1, 0, 0};
 
     // Tính và in trạng thái từng bước
     markovSteps(initialState, transitionMatrix, k);

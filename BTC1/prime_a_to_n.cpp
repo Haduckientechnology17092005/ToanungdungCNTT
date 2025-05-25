@@ -34,7 +34,6 @@ void listPrimes(const vector<long long>& primes) {
     const int columnWidth = 5; // Độ rộng mỗi cột
     const int columnsPerRow = 10; // Số cột mỗi hàng
     int count = 0;
-
     for (long long prime : primes) {
         cout << setw(columnWidth) << prime << " ";
         count++;
@@ -46,7 +45,13 @@ void listPrimes(const vector<long long>& primes) {
         cout << endl; // Kết thúc dòng cuối cùng nếu còn sót
     }
 }
-
+long long sumOfPrimes(vector<long long> primes) {
+    long long sum = 0;
+    for (long long prime : primes) {
+        sum += prime;
+    }
+    return sum;
+}
 // Hàm tìm các số nguyên tố gần target nhất
 void findClosestPrimes(const vector<long long>& primes, long long target) {
     vector<pair<long long, long long>> distances; // Vector chứa số nguyên tố và khoảng cách của nó tới target
@@ -83,7 +88,9 @@ int main() {
     // Gọi các hàm
     cout << "Danh sách các số nguyên tố từ " << L << " đến " << R << ":\n";
     listPrimes(primes);
-    long long target = 237;
+    cout << "Tổng các số nguyên tố từ " << L << " đến " << R
+    << " là: " << sumOfPrimes(primes) << endl;
+    long long target = 300;
     findClosestPrimes(primes, target);
     return 0;
 }

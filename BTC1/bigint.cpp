@@ -1,69 +1,71 @@
-#include<iostream>
-#include<string>
-#include<vector>
-#include<algorithm>
+#include <iostream>
+#include <vector>
 using namespace std;
 
-void removeZero(vector<int>& v){
-    while (v.size() > 1 && v.back() == 0){
+const int MOD = 1000007;
+
+void removeZero(vector<int>& v) {
+    while (v.size() > 1 && v.back() == 0) {
         v.pop_back();
     }
 }
 
-void init(string s1, vector<int>& v1){
-    for(int i = s1.size() - 1; i >= 0; i--){
-        v1.push_back(s1[i] - '0');
+void init(int x, vector<int>& v) {
+    v.clear();
+    while (x > 0) {
+        v.push_back(x % 10);
+        x /= 10;
     }
-    removeZero(v1);
+    if (v.empty()) v.push_back(0);
 }
 
-void print(const vector<int>& v){
-    for(int i = v.size() - 1; i >= 0; i--){
+void print(const vector<int>& v) {
+    for (int i = v.size() - 1; i >= 0; i--) {
         cout << v[i];
     }
     cout << endl;
 }
 
-void add(vector<int>& v1, vector<int>& v2, vector<int>& v3){
+void mul(vector<int>& v1, int num, vector<int>& v3) {
     v3.clear();
-    int length = max(v1.size(), v2.size());
-    v1.resize(length, 0);  
-    v2.resize(length, 0);  
-    int extra = 0;
-    int temp;
-    for(int i = 0; i < length; i++){
-        temp = v1[i] + v2[i] + extra;
-        v3.push_back(temp % 10);
-        extra = temp / 10;
+    v3.resize(v1.size() + 10, 0);
+    int carry = 0;
+    for (int i = 0; i < v1.size(); i++) {
+        int temp = v1[i] * num + carry;
+        v3[i] = temp % 10;
+        carry = temp / 10;
     }
-    if(extra > 0){
-        v3.push_back(extra);
+    int idx = v1.size();
+    while (carry > 0) {
+        v3[idx++] = carry % 10;
+        carry /= 10;
     }
+    removeZero(v3);
 }
 
-void mul(vector<int>& v1, vector<int>& v2, vector<int>& v3){
-    v3.clear();
-    v3.resize(v1.size() + v2.size(), 0); 
-
-    for(int i = 0; i < v1.size(); i++){
-        int extra = 0;
-        for(int j = 0; j < v2.size(); j++){
-            int temp = v3[i + j] + v1[i] * v2[j] + extra;
-            v3[i + j] = temp % 10;
-            extra = temp / 10;
-        }
-        v3[i + v2.size()] += extra;  
+int modBigInt(const vector<int>& v, int mod) {
+    long long remainder = 0;
+    for (int i = v.size() - 1; i >= 0; i--) {
+        remainder = (remainder * 10 + v[i]) % mod;
     }
-    removeZero(v3); 
+    return remainder;
 }
 
-int main(){
-    string s1 = "122020393930838939393";
-    string s2 = "12202039393003003";
-    vector<int> v1, v2, v3;
-    init(s1, v1);
-    init(s2, v2);
-    mul(v1, v2, v3);
-    print(v3);
+int main() {
+    int n;
+    cin >> n;
+
+    vector<int> factorial;
+    init(1, factorial);
+
+    for (int i = 2; i <= n; i++) {
+        vector<int> temp;
+        mul(factorial, i, temp);
+        factorial = temp;
+        int modResult = modBigInt(factorial, MOD); 
+        init(modResult, factorial); 
+    }
+
+    print(factorial);
     return 0;
 }

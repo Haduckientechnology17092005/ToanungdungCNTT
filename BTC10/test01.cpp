@@ -98,11 +98,12 @@ double calculateProbability(const MatrixXd& P, const int status, int steps) {
     }
     // cout << "P^n = " << endl << P_n << endl;
     // Xác suất từ "Trung bình" lên "Giàu"
-    double probability = P_n(1, 0); 
+    double probability = 0;
     for(int i = 0; i < P_n.rows(); ++i){
         for(int j = 0; j < P_n.cols(); ++j){
             if(i==status){
                 cout << "P(" << i << "|" << j << ") = " << P_n(i, j) << "\t";
+                probability = max(probability, P_n(i, j));
             }
         }
     }
@@ -114,19 +115,19 @@ double calculateProbability(const MatrixXd& P, const int status, int steps) {
 int main() {
     // Ma trận chuyển đổi trạng thái
     MatrixXd P(4, 4);
-    P << 0.0, 0.5, 0.3, 0.2,  // Giàu
-         0.1, 0.2, 0.55, 0.15,  // Trung bình
-         0.4, 0.3, 0.2, 0.1,    // Nghèo
-         0.0, 0.25, 0.35, 0.4;  // Nợ
+    P << 0.23, 0.17, 0.33, 0.27,
+        0.21, 0.35, 0.23, 0.21,
+        0.18, 0.22, 0.28, 0.32,
+        0.19, 0.37, 0.09, 0.35;  // Nợ
     // Trạng thái ban đầu
-    int status = 2;
+    int status = 1;
     // Số bước cần tính
     int steps = 4;
     cout << "Xác suất từ bình dân lên giàu: " << endl;
     for(int i = 1; i <= steps; ++i) {
         double probability = calculateProbability(P, status, i);
-        cout << "Xác suất sau " << i << " bước: " << probability << endl;
+        cout << "Xác suất max sau " << i << " bước: " << probability << endl;
     }
     return 0;
 }
-// g++ -I /usr/include/eigen3 /media/haduckien/E/Studying/HK3/Mathmetics\ for\ CS\ \(3\)/BTC6/test.cpp -o test
+// g++ -I /usr/include/eigen3 /media/haduckien/E/Studying/HK3/Mathmetics\ for\ CS\ \(3\)/BTC10/test01.cpp -o test01

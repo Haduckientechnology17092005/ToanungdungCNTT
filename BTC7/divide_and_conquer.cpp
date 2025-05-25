@@ -242,19 +242,19 @@ int main() {
     vector<pair<int, int>> ans = divide(a);
     cout << "Convex Hull Points:\n";
     for (auto e : ans)
-        cout <<"("<<e.first << " " << e.second << ")\t" <<endl;
+        cout <<"("<<e.first << " " << e.second << ")\t";
     cout << "Area of Convex Hull: " << polygonArea(ans) << endl;
     cout << "Shortest Distance Between Two Points: " << shortestDistance(a) << endl;
     cout << "Smallest Edge of Convex Hull: " << smallestEdge(ans) << endl;
     vector<pair<int, int>> points_inside = elements_In_A_And_Not_In_B(a, ans);
     cout << "Points inside Convex Hull:\n";
     for(auto e : points_inside)
-        cout << "(" << e.first << " " << e.second << ")\t" << endl;
-    pair<int, int> randomPoint = {2,0};
-    if (pointInConvexHull(ans, randomPoint)) {
-        cout << "Point (" << randomPoint.first << ", " << randomPoint.second << ") is inside the convex hull.\n";
-    } else {
-        cout << "Point (" << randomPoint.first << ", " << randomPoint.second << ") is outside the convex hull.\n";
-    }
+        cout << "(" << e.first << " " << e.second << ")\t";
+    // pair<int, int> randomPoint = {2,0};
+    // if (pointInConvexHull(ans, randomPoint)) {
+    //     cout << "Point (" << randomPoint.first << ", " << randomPoint.second << ") is inside the convex hull.\n";
+    // } else {
+    //     cout << "Point (" << randomPoint.first << ", " << randomPoint.second << ") is outside the convex hull.\n";
+    // }
     return 0;
 }

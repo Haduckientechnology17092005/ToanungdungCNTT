@@ -96,13 +96,11 @@ vector<Point> grahamScan(vector<Point>& points) {
             v_lowest = points[i];
         }
     }
-    
     sort(points.begin(), points.end(), [&v_lowest](const Point& a, const Point& b) {
         double ang_a = angleToPoint(v_lowest, a);
         double ang_b = angleToPoint(v_lowest, b);
         return ang_a < ang_b;
     });
-
     vector<Point> stack;
     if (points.size() < 4) return points;
 
@@ -166,8 +164,8 @@ vector<Point> elements_In_A_And_Not_In_B(const vector<Point>& A, const vector<Po
 int main() {
     int n = 15;
     int maxRange = 20;
-    vector<Point> points = {{6,2}, {8,3}, {4,10}, {3,5}, {16,5}, {9,7}, {11,6}, {10, 12}, {8,9}, {7,6}};
-    cout<<"Random points:\n";
+    vector<Point> points = {{3,7}, {2,5}, {4,3}, {2,9}, {6,12}, {7,16}, {8,3}, {9, 8}, {10,7}, {11,12}};
+    cout<<"Original points:\n";
     for (const auto& point : points) {
         cout << "(" << point.x << ", " << point.y << ") ";
     }
@@ -175,10 +173,10 @@ int main() {
     auto hull = grahamScan(points);
     cout << "Convex Hull points:\n";
     for (const auto& point : hull) {
-        cout << "(" << point.x << ", " << point.y << ")" << endl;
+        cout << "(" << point.x << ", " << point.y << ")\t";
     }
     double hullArea = calculateHullArea(hull);
-    cout << "Convex Hull Area: " << hullArea << endl;
+    cout << "\nConvex Hull Area: " << hullArea << endl;
     pair<Point, Point> minEdge = find_min_edge(hull);
     cout << "Shortest edge in Convex Hull: (" << minEdge.first.x << ", " << minEdge.first.y << ") and (" 
          << minEdge.second.x << ", " << minEdge.second.y << ")\n";
@@ -190,18 +188,18 @@ int main() {
     vector<Point> points_inside = elements_In_A_And_Not_In_B(points, hull);
     cout << "Points inside the Convex Hull:\n";
     for (const auto& point : points_inside) {
-        cout << "(" << point.x << ", " << point.y << ")" << endl;
+        cout << "(" << point.x << ", " << point.y << ")\t";
     }
-    int m = 1;
-    vector<Point> testPoints = generateRandomPoints(m, maxRange);
-    cout << "Random points:\n";
-    for (const auto& point : testPoints) {
-        cout << "(" << point.x << ", " << point.y << ")" << endl;
-    }
-    if (isPointInHull(hull, testPoints[0])) {
-        cout << "Point " << testPoints[0].x << ", " << testPoints[0].y << " is in the convex hull." << endl;
-    } else {
-        cout << "Point " << testPoints[0].x << ", " << testPoints[0].y << " is not in the convex hull." << endl;
-    }
+    // int m = 1;
+    // vector<Point> testPoints = generateRandomPoints(m, maxRange);
+    // cout << "Random points:\n";
+    // for (const auto& point : testPoints) {
+    //     cout << "(" << point.x << ", " << point.y << ")" << endl;
+    // }
+    // if (isPointInHull(hull, testPoints[0])) {
+    //     cout << "Point " << testPoints[0].x << ", " << testPoints[0].y << " is in the convex hull." << endl;
+    // } else {
+    //     cout << "Point " << testPoints[0].x << ", " << testPoints[0].y << " is not in the convex hull." << endl;
+    // }
     return 0;
 }

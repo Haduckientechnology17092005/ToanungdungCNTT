@@ -1,7 +1,7 @@
 #include <iostream>
 #include <Eigen/Dense>
 #include <iomanip>
-#include <math.h>
+#include <cmath>
 
 using namespace std;
 using namespace Eigen; 
@@ -95,7 +95,7 @@ void GetEigenValuesAndVector(MatrixXd S, MatrixXd &lambda, MatrixXd &vector) {
 	int l = vector.rows();
 	for (int i=0; i<k; i++) 
 	{
-		if (lambda(i, 0) < 0.000001) 
+		if (lambda(i, 0) < 0.00001) 
 			lambda(i, 0) = 0;
 	}
     for (int i = 0; i < k; i++) {

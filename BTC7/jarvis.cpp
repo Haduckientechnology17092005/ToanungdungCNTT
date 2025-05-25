@@ -119,34 +119,34 @@ int main() {
     Point points[n] = {{6,2}, {8,3}, {4,10}, {3,5}, {16,5}, {9,7}, {11,6}, {10, 12}, {8,9}, {7,6}};
     // int max_x = 10, max_y = 10; 
     // generate_random_points(points, n, max_x, max_y);
-    cout << "Generated Random Points:\n";
+    cout << "Original Points:\n";
     for (int i = 0; i < n; i++) {
-        cout << "(" << points[i].x << ", " << points[i].y << ")\n";
+        cout << "(" << points[i].x << ", " << points[i].y << ")\t";
     }
     vector<Point> hull = convexHull(points, n);
     cout << "\nConvex Hull:\n";
     for (const auto &p : hull)
-        cout << "(" << p.x << ", " << p.y << ")\n";
+        cout << "(" << p.x << ", " << p.y << ")\t";
     double area = poly_area(hull);
     cout << "\nArea of Convex Hull: " << area << endl;
     pair<Point, Point> min_edge = find_min_edge(hull);
-    cout << "\nShortest edge in Convex Hull: (" << min_edge.first.x << ", " << min_edge.first.y << ") and ("
+    cout << "Shortest edge in Convex Hull: (" << min_edge.first.x << ", " << min_edge.first.y << ") and ("
          << min_edge.second.x << ", " << min_edge.second.y << ")\n";
     cout << "Length of shortest edge: " << distance(min_edge.first, min_edge.second) << endl;
     pair<Point, Point> closest_pair = find_closest_points(points, n);
-    cout << "\nClosest points in the set: (" << closest_pair.first.x << ", " << closest_pair.first.y << ") and ("
+    cout << "Closest points in the set: (" << closest_pair.first.x << ", " << closest_pair.first.y << ") and ("
     << closest_pair.second.x << ", " << closest_pair.second.y << ")\n";
     cout << "Distance between closest points: " << distance(closest_pair.first, closest_pair.second) << endl;
     vector<Point> points_inside = elements_In_A_And_Not_In_B(points, hull, n);
-    cout << "\nPoints inside the Convex Hull:\n";
+    cout << "Points inside the Convex Hull:\n";
     for (const auto& point : points_inside) {
-        cout << "(" << point.x << ", " << point.y << ")\n";
+        cout << "(" << point.x << ", " << point.y << ")\t";
     }
-    Point test_point = {1, 2}; 
-    if (is_inside_hull(test_point, hull)) {
-        cout << "\nPoint (" << test_point.x << ", " << test_point.y << ") is inside the convex hull.\n";
-    } else {
-        cout << "\nPoint (" << test_point.x << ", " << test_point.y << ") is outside the convex hull.\n";
-    }
+    // Point test_point = {1, 2}; 
+    // if (is_inside_hull(test_point, hull)) {
+    //     cout << "\nPoint (" << test_point.x << ", " << test_point.y << ") is inside the convex hull.\n";
+    // } else {
+    //     cout << "\nPoint (" << test_point.x << ", " << test_point.y << ") is outside the convex hull.\n";
+    // }
     return 0;
 }

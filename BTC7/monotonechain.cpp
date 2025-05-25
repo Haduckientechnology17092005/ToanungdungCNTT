@@ -206,23 +206,22 @@ int main()
     int n = 15;
     int max_range = 10;
     // vector<Point> P = generate_unique_points(n, max_range);
-    vector<Point> P = {{6,2}, {8,3}, {4,10}, {3,5}, {16,5}, {9,7}, {11,6}, {10, 12}, {8,9}, {7,6}};
+    vector<Point> P = {{2,5}, {3,7}, {4,3}, {2,9}, {6,12}, {7,16}, {8,3}, {9, 8}, {10,7}, {11,12}};
     cout << "Danh sach cac diem dau vao: \n";
     for (auto &p : P) cout << "(" << p.x << ", " << p.y << ")\t";
     cout << endl;
     
     vector<Point> res = convex_hull(P);
     cout << "Bao Loi la \n";
-    for (auto &p : res) cout << "(" << p.x << ", " << p.y << ")\n";
+    for (auto &p : res) cout << "(" << p.x << ", " << p.y << ")\t";
     
-    cout << "dien tich cua Bao Loi la: " << poly_area(res) << endl;
+    cout << "\ndien tich cua Bao Loi la: " << poly_area(res) << endl;
     
     pair<Point, Point> res_min_dist = find_min_dist(P);
     cout << "2 diem co khoang cach ngan nhat la ";
     cout << "(" << res_min_dist.first.x << ", " << res_min_dist.first.y << ") va "
          << "(" << res_min_dist.second.x << ", " << res_min_dist.second.y << ")\n";
     cout << "Voi khoang cach la: " << distance(res_min_dist.first, res_min_dist.second) << endl;
-    cout << endl;
     pair<Point, Point> res_min_edge = find_min_edge(res);
     cout << "Canh be nhat cua bao loi la ";
     cout << "(" << res_min_edge.first.x << ", " << res_min_edge.first.y << ") va "
@@ -236,7 +235,7 @@ int main()
     vector<Point> points_inside = elements_In_A_And_Not_In_B(P, res);
     for (auto p : points_inside) cout << p << "\t";
     cout << endl;
-    pair<int, int> randomPoint = {7, 6};
+    // pair<int, int> randomPoint = {7, 6};
     return 0;
 }
 

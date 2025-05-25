@@ -1,80 +1,173 @@
 #include <iostream>
 #include <cmath>
-#include <limits>
+#include <functional>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
-// Hàm mục tiêu
-double objective(double x, double y) {
-    return 5 * x + 10 * y + 5 * x * y - 4 * x * x - 6 * y * y;
-}
+// Hàm Golden Section Search để tối ưu hóa dọc theo một hướng
+double goldenSection(const function<double(double)> &func, double a, double b, double tol = 1e-6) {
+    const double gr = (sqrt(5) + 1) / 2;  // Tỷ lệ vàng
+    double c = b - (b - a) / gr;
+    double d = a + (b - a) / gr;
 
-// Đạo hàm riêng theo x và y
-double dfdx(double x, double y) {
-    return 5 + 5 * y - 8 * x;
-}
+    while (fabs(c - d) > tol) {
+        if (func(c) < func(d))
+            b = d;
+        else
+            a = c;
 
-double dfdy(double x, double y) {
-    return 10 + 5 * x - 12 * y;
-}
-
-// Đạo hàm của hàm Lagrange theo lambda
-double dfdlambda1(double x, double y) {
-    return x + 3 * y - 35;
-}
-
-double dfdlambda2(double x) {
-    return -x;
-}
-
-double dfdlambda3(double y) {
-    return -y;
-}
-
-// Hàm Lagrange mở rộng
-void lagrangeOptimization(double init_x, double init_y) {
-    double x = init_x;
-    double y = init_y;
-    double lambda1 = 0.0;  // Khởi tạo lambda1
-    double lambda2 = 0.0;  // Khởi tạo lambda2
-    double lambda3 = 0.0;  // Khởi tạo lambda3
-    double learningRate = 0.001;  // Hệ số học
-    int maxIter = 10000;  // Số vòng lặp tối đa
-
-    // Lặp cho tới khi hội tụ
-    for (int iter = 0; iter < maxIter; iter++) {
-        // Tính các đạo hàm
-        double grad_x = dfdx(x, y) + lambda1;  // Đạo hàm theo x với điều kiện Lagrange
-        double grad_y = dfdy(x, y) + lambda1 * 3;  // Đạo hàm theo y với điều kiện Lagrange
-        double grad_lambda1 = dfdlambda1(x, y);
-        double grad_lambda2 = dfdlambda2(x);
-        double grad_lambda3 = dfdlambda3(y);
-        
-        // Cập nhật giá trị của x, y và lambda
-        x -= learningRate * grad_x;
-        y -= learningRate * grad_y;
-        lambda1 -= learningRate * grad_lambda1;
-        lambda2 -= learningRate * grad_lambda2;
-        lambda3 -= learningRate * grad_lambda3;
-
-        // Điều kiện KKT: Kiểm tra xem nhân tử Lagrange có bị âm hay không
-        lambda1 = max(lambda1, 0.0);
-        lambda2 = max(lambda2, 0.0);
-        lambda3 = max(lambda3, 0.0);
-
-        // Kiểm tra điều kiện hội tụ
-        if (abs(grad_x) < 1e-6 && abs(grad_y) < 1e-6 && abs(grad_lambda1) < 1e-6 && abs(grad_lambda2) < 1e-6 && abs(grad_lambda3) < 1e-6)
-            break;
+        // Tính lại c và d
+        c = b - (b - a) / gr;
+        d = a + (b - a) / gr;
     }
 
-    // In kết quả
-    cout << "Gia tri nho nhat tai x = " << x << ", y = " << y << endl;
-    cout << "Gia tri nho nhat cua ham muc tieu la: " << objective(x, y) << endl;
+    return (b + a) / 2;
+}
+
+// Hàm Powell để tìm cực tiểu của hàm số `func` với điểm bắt đầu `iniGuess`
+vector<double> powellMethod(const function<double(double, double)> &func, vector<double> iniGuess, double tol) {
+    int count = 1;
+    double searchRange[] = {-1, 1};  // Vùng tìm kiếm cho Golden Section từ -1 đến 1
+    vector<vector<double>> directions = {{1, 0}, {0, 1}};  // Các hướng tìm kiếm ban đầu
+    vector<double> X = iniGuess;  // Điểm bắt đầu
+    vector<double> Y = X;
+    int n = directions.size();
+    bool doLoop = true;
+
+    while (doLoop) {
+        for (int q = 0; q < n; ++q) {
+            // Hàm func_gS cho Golden Section
+            auto func_gS = [&](double alphaValue) {
+                return func(X[0] + alphaValue * directions[q][0], X[1] + alphaValue * directions[q][1]);
+            };
+
+            // Tìm giá trị alpha tối ưu theo hướng directions[q]
+            double alphaOpti = goldenSection(func_gS, searchRange[0], searchRange[1]);
+            X[0] += alphaOpti * directions[q][0];
+            X[1] += alphaOpti * directions[q][1];
+
+            // Nếu là hướng cuối cùng, cập nhật hướng và kiểm tra hội tụ
+            if (q == n - 1) {
+                count++;
+                vector<double> newDir = {X[0] - Y[0], X[1] - Y[1]};
+                double normNewDir = sqrt(newDir[0] * newDir[0] + newDir[1] * newDir[1]);
+                
+                if (normNewDir > 0) {
+                    directions.push_back({newDir[0] / normNewDir, newDir[1] / normNewDir});  // Cập nhật hướng mới
+                    directions.erase(directions.begin());  // Xóa hướng đầu tiên
+                }
+                
+                Y = X;
+                
+                // Tìm alpha tối ưu theo hướng mới
+                alphaOpti = goldenSection(func_gS, searchRange[0], searchRange[1]);
+                X[0] += alphaOpti * directions[q][0];
+                X[1] += alphaOpti * directions[q][1];
+
+                // Kiểm tra hội tụ
+                double diffNorm = sqrt(pow(Y[0] - X[0], 2) + pow(Y[1] - X[1], 2));
+                if (diffNorm < tol) {
+                    doLoop = false;  // Dừng vòng lặp nếu hội tụ
+                }
+            }
+
+            // Kiểm soát số lần lặp
+            if (count == 100) {
+                directions = {{1, 0}, {0, 1}};  // Đặt lại hướng ban đầu
+                count = 1;
+                break;
+            }
+        }
+    }
+
+    return X;  // Trả về điểm tối ưu
+}
+
+// Hàm Augmented Lagrangian với các ràng buộc
+pair<vector<double>, double> augmentedLagrangian(
+    const function<double(double, double)> &Ffunc,            // Hàm mục tiêu
+    const vector<function<double(double, double)>> &gFuncs,   // Các ràng buộc bất đẳng thức
+    const vector<function<double(double, double)>> &HFuncs,   // Các ràng buộc đẳng thức
+    vector<double> iniGuess, double tol) {
+    
+    vector<double> lagrangeMultipliers(gFuncs.size(), 1.0);  // Nhân tử Lagrange cho các ràng buộc bất đẳng thức
+    vector<double> lagrangeMultipliersH(HFuncs.size(), 1.0); // Nhân tử Lagrange cho các ràng buộc đẳng thức
+    double penaltyParameter = 1.0;
+    double gamma = 1.5;
+    double penaltyMax = 10.0;
+    vector<double> x0 = iniGuess;
+    bool doLoop = true;
+
+    vector<double> minX;
+    double minFuncValue = 0.0;
+
+    while (doLoop) {
+        auto Afunc = [&](double x1, double x2) {
+            double penalty = Ffunc(x1, x2);
+
+            for (size_t i = 0; i < gFuncs.size(); ++i) {
+                penalty += lagrangeMultipliers[i] * max(gFuncs[i](x1, x2), -lagrangeMultipliers[i] / (2 * penaltyParameter))
+                          + penaltyParameter * max(gFuncs[i](x1, x2), -lagrangeMultipliers[i] / (2 * penaltyParameter));
+            }
+
+            for (size_t j = 0; j < HFuncs.size(); ++j) {
+                penalty += lagrangeMultipliersH[j] * HFuncs[j](x1, x2) 
+                          + penaltyParameter * pow(HFuncs[j](x1, x2), 2);
+            }
+            return penalty;
+        };
+
+        minX = powellMethod(Afunc, x0, 1e-6);
+
+        if (sqrt(pow(minX[0] - x0[0], 2) + pow(minX[1] - x0[1], 2)) < tol) {
+            doLoop = false;
+            minFuncValue = Afunc(minX[0], minX[1]);
+        } else {
+            x0 = minX;
+        }
+
+        for (size_t i = 0; i < gFuncs.size(); ++i) {
+            lagrangeMultipliers[i] += 2 * penaltyParameter * max(gFuncs[i](minX[0], minX[1]), -lagrangeMultipliers[i] / (2 * penaltyParameter));
+        }
+
+        for (size_t j = 0; j < HFuncs.size(); ++j) {
+            lagrangeMultipliersH[j] += 2 * penaltyParameter * HFuncs[j](minX[0], minX[1]);
+        }
+
+        penaltyParameter *= gamma;
+        if (penaltyParameter > penaltyMax) {
+            penaltyParameter = penaltyMax;
+        }
+    }
+
+    return {minX, minFuncValue};
 }
 
 int main() {
-    // Thử nghiệm với các giá trị khởi tạo
-    lagrangeOptimization(35, 0);  // Khởi tạo tại x = 10, y = 5
+    auto Ffunc = [](double x1, double x2) { return 5*x1 + 10*x2 + 5*x1*x2 - 4*x1*x1 - 6*x2*x2; };
+    // auto Ffunc = [](double x1, double x2) { return 9*pow(x1, 4) + 3*x1*x1*x2 + 2*x1*x2*x2 + 5*pow(x2, 4); };
+    // Hàm g(x1, x2) đại diện cho các ràng buộc bất đẳng thức có dạng 𝑔(𝑥1,𝑥2) ≤ 0
+    vector<function<double(double, double)>> gFuncs = {
+        // [](double x1, double x2) { return x1*x1 + 2*x1*x2; },
+        [](double x1, double x2) { return x1 + 3*x2 - 0; },
+        [](double x1, double x2) { return -x1; },
+        [](double x1, double x2) { return -x2; }
+    };
+    // Hàm h(x1, x2) đại diện cho các ràng buộc đẳng thức có dạng h(x1, x2) = 0.
+    vector<function<double(double, double)>> HFuncs = {
+        // [](double x1, double x2) { return x1; },
+        // [](double x1, double x2) { return x2; }
+    };
+
+    vector<double> iniGuess = {1, 1};
+    double tol = 1e-6;
+
+    auto result = augmentedLagrangian(Ffunc, gFuncs, HFuncs, iniGuess, tol);
+
+    cout << "Minimizing point: (" << result.first[0] << ", " << result.first[1] << ")\n";
+    cout << "Minimum function value: " << result.second << endl;
 
     return 0;
 }
